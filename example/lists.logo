@@ -1,0 +1,7 @@
+to firstfive :alist
+  ifelse lessp count :alist 6 [ op :alist ][make "olist []]
+  repeat 5 [ make "olist lput first :alist  :olist   make "alist bf :alist ] output :olist
+ end
+
+ show firstfive [1 2 3 4 5 6 7 8 9 ]
+ foreach firstfive [1 2 3 4 5 6 7 8 9 ] show 10 - ?

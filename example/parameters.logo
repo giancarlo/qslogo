@@ -1,0 +1,6 @@
+ 
+TO CHAIR  :thesize
+REPEAT 4 [FD :thesize  RT 90] FD :thesize FD :thesize
+END
+
+CS REPEAT 9 [CHAIR 50 RT 20 CHAIR 100 WAIT 50 RT 20]

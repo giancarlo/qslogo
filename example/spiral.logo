@@ -1,0 +1,7 @@
+to spiral :size
+   if  :size > 30 [stop] ; a condition stop
+   fd :size rt 15        ; many lines of action
+   spiral :size *1.02    ; the tailend recursive call
+end
+
+spiral 10
