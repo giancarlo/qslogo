@@ -22,7 +22,7 @@
 //#include <boost/spirit/core.hpp>
 //#include <string>
 
-#include <QTCore/QResource>
+#include <QResource>
 
 #include "debug.hpp"
 #include "window.hpp"
@@ -61,9 +61,7 @@ logo::window::window(QWidget *parent) : QMainWindow(parent)
 
 	QResource::registerResource("resources.rcc");
 
-	//resize(640, 480);
-	setWindowTitle("Coaxial Logo 1.0");
-	//setWindowIcon(QIcon(":/resources/turtle.png"));
+	setWindowTitle("qsLogo 1.0");
 
 	// set tabs
 	tabs = new QTabWidget(this);
@@ -73,7 +71,6 @@ logo::window::window(QWidget *parent) : QMainWindow(parent)
 	
 	// Set Scene
 	scene = new QGraphicsScene(this);
-	//scene->setSceneRect(-320, -240, 640, 480);
 
 	// Set View	
 	view = new QGraphicsView(scene);
