@@ -5,7 +5,7 @@
 #
 #	Custom Paths
 #
-BOOST = y:/projects/boost/build/include/boost-1_36
+# BOOST = y:/projects/boost/build/include/boost-1_36
 
 CONFIG	+= qt
 HEADERS += logo/*.hpp
