@@ -99,6 +99,7 @@ logo::window::window(QWidget *parent) : QMainWindow(parent)
 
 	// Create Turtle!!
 	turtle = scene->addPixmap(QPixmap(":/resources/turtle.png"));
+	turtle->setOffset(-turtle->pixmap().width()/2,-turtle->pixmap().height()/2);
 
 	statusBar()->showMessage("Ready.");
 

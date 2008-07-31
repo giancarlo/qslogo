@@ -11,7 +11,11 @@ Before running qmake you need to set the BOOST variable with the location of you
 
 I.2 Run Qmake
 
+qmake BOOST=/location/of/boost/dir
+
 I.3 Run make or nmake or other
+
+make
 
 I.4 Enjoy
 
