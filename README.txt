@@ -24,5 +24,21 @@ II. Installation
 You will need qtcore4.dll and qtgui4.dll in the bin/(target) folder.
 
 
+II Documentation
+
+II.1 Supported Commands
+
+sqr number	# Square Root
+forward/fd step
+back/bk step
+right/rt degree
+left/lt degree
+xcor	# returns x coordinate
+ycor	# returns y coordinate
+get turtle x
+get turtle y
+cs	# clear screen
+print <string | number>
+exit
 
 	
