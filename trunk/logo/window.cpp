@@ -43,8 +43,9 @@ void logo::window::onReturnPressed() {
 	
 	logo::interpreter g;
 
+	log->addItem(command->text());
+
 	QByteArray cmd = command->text().toAscii();
-	
 	g.parse(cmd.data(), cmd.data() + cmd.length());
 
 	command->clear();
@@ -100,6 +101,8 @@ logo::window::window(QWidget *parent) : QMainWindow(parent)
 	// Create Turtle!!
 	turtle = scene->addPixmap(QPixmap(":/resources/turtle.png"));
 	turtle->setOffset(-turtle->pixmap().width()/2,-turtle->pixmap().height()/2);
+
+	this->setWindowIcon(QIcon(":/resources/turtle.png"));
 
 	statusBar()->showMessage("Ready.");
 
