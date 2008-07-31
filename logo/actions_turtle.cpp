@@ -29,15 +29,11 @@ namespace logo
 			stack.push_back(logo::win->turtle->y());
 		}
 
-		/*
-		 *	She is an angel for sure. She just cant stop telling lies.
-		 */
 		void forward(IterT, IterT)
 		{	
-			// If the stack is empty then there is the possibility that there is some fucked up error.
 			if (!stack.isEmpty())
 			{
-				logo::win->turtle->moveBy(0, stack.last());
+				logo::win->turtle->translate(0, - stack.last());
 				stack.pop_back();
 			}
 		}
@@ -46,7 +42,7 @@ namespace logo
 		{
 			if (!stack.isEmpty())
 			{
-				logo::win->turtle->moveBy(0, - stack.last());
+				logo::win->turtle->translate(0, stack.last());
 				stack.pop_back();
 			}
 		}
@@ -55,6 +51,15 @@ namespace logo
 		{
 			if (!stack.isEmpty())
 			{
+				// middle x and y to rotate around
+				/*int mx = logo::win->turtle->width() / 2;
+				int my = logo::win->turtle->height()/ 2;
+
+			  logo::win->turtle->setTransform(QTransform()
+					.translate(mx, my)
+					.rotate(stack.last())
+					.translate(-mx, -my)
+				);*/
 				logo::win->turtle->rotate(stack.last());
 				stack.pop_back();
 			}
