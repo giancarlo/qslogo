@@ -42,7 +42,7 @@ namespace logo
         {
 
 			boost::spirit::rule<ScannerT>  
-				expression, statement, identifier,
+				expression, statement, identifier, statements,
 				// Addons
 				get,
 				// Turtle Position
@@ -58,8 +58,11 @@ namespace logo
 				// Types
 				string, number,
 				// Other
-				eol, invalid;
-			
+				eol, invalid, end,
+				// Functions
+				to, other
+			;
+
 			definition(grammar const& self)  
 			{
 				using namespace boost::spirit;
@@ -102,6 +105,13 @@ namespace logo
 								) [ &logo::action::clear_screen ]
 								>> eol;
 
+				end			= lexeme_d[str_p("end")] >> eol;
+				to			= (lexeme_d[str_p("to")] >> identifier[&logo::action::to]) 
+									>> *statement 
+									>> end;
+
+				other   = identifier[&logo::action::call];
+
 				print		= (lexeme_d[str_p("print")] >> expression)[&logo::action::print] >> eol;
 				exit		= lexeme_d[str_p("exit")][&logo::action::exit] >> eol;
 				//invalid		= (*graph_p);
@@ -109,13 +119,15 @@ namespace logo
 								back | forward | right | left |
 								xcor | ycor |
 								print | cs | get | 
-								exit
-								) >> (*statement);
+								exit | other
+								);
+
+				statements = *statement;
 			}
            
 			boost::spirit::rule<ScannerT> const& start() const 
 			{ 
-				return statement; 
+				return statements; 
 			}
 
         };
