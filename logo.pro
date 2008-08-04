@@ -15,7 +15,7 @@ RC_FILE = logo/Logo.rc
 
 # Check for Boost Spirit Headers
 !exists( $$BOOST/boost/spirit/core.hpp ) {
-	error ( "No Boost Spirit Headers founds. Please fix immediately" )
+	error ( "No Boost Spirit Headers found." )
 }
 
 INCLUDEPATH += $$BOOST
