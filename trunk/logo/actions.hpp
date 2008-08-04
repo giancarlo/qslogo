@@ -64,6 +64,9 @@ namespace logo
 		void back(IterT, IterT);
 		void right(IterT, IterT);
 		void left(IterT, IterT);
+
+		void to(IterT, IterT);
+		void call(IterT, IterT);
 	
 	}
 
