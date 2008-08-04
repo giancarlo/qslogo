@@ -1,0 +1,3 @@
+#summary qsLogo documentation.
+
+= qsLogo 1.0 =
