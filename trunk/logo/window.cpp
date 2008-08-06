@@ -117,8 +117,8 @@ logo::window::window(QWidget *parent) : QMainWindow(parent)
  */
 void logo::window::resizeEvent(QResizeEvent *event)
 {
-	qreal w = width() - 4;
-	qreal h = height() - 4;
+	qreal w = scene->width();
+	qreal h = scene->height();
 
 	scene->setSceneRect(-w/2, -h/2, w, h);
 }
