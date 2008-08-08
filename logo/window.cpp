@@ -27,6 +27,7 @@
 #include "debug.hpp"
 #include "window.hpp"
 #include "interpreter.hpp"
+#include "turtle.hpp"
 
 namespace logo {
 
@@ -99,8 +100,11 @@ logo::window::window(QWidget *parent) : QMainWindow(parent)
 	command->setFocus();
 
 	// Create Turtle!!
-	turtle = scene->addPixmap(QPixmap(":/resources/turtle.png"));
-	turtle->setOffset(-turtle->pixmap().width()/2,-turtle->pixmap().height()/2);
+	//turtle = scene->addPixmap(QPixmap(":/resources/turtle.png"));
+
+	//turtles = new logo::turtle(scene)[logo::MAX_TURTLES];
+	//turtle  = turtles[0];
+	turtle = new logo::turtle(scene);
 
 	this->setWindowIcon(QIcon(":/resources/turtle.png"));
 
@@ -110,6 +114,14 @@ logo::window::window(QWidget *parent) : QMainWindow(parent)
 	
 	connect(command, SIGNAL(returnPressed()), this, SLOT(onReturnPressed()));
 
+}
+
+/*
+ * TODO delete all turtles not only 1
+ */
+logo::window::~window()
+{
+	delete turtle;
 }
 
 /**

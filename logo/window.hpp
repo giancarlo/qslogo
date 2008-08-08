@@ -41,6 +41,10 @@
 namespace logo
 {
 
+	static const int MAX_TURTLES = 4;
+
+	class turtle;
+
 	class window : public QMainWindow
 	{
 		Q_OBJECT
@@ -57,6 +61,7 @@ namespace logo
 		 * Constructor
 		 */
 		window(QWidget *parent=0);
+		~window();
 
 		/*
 		 *	Objects
@@ -77,11 +82,14 @@ namespace logo
 		QDockWidget		*dockCommand;
 		QLineEdit		*command;
 
-		QGraphicsPixmapItem*	turtle;
+		/*
+		 * Turtles!
+		 */
+		logo::turtle* turtles;
+		logo::turtle* turtle;
+		//QGraphicsPixmapItem*	turtle;
 
-
-
-	};
+};
 
 	// win defined in window.cpp
 	extern const logo::window* win;
