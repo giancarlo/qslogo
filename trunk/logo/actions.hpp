@@ -22,7 +22,7 @@
 #ifndef LOGO_ACTIONS_HPP
 #define LOGO_ACTIONS_HPP
 
-#include <QtCore/QVector>
+#include <QtCore/QStack>
 #include <QtCore/QHash>
 #include <QtCore/QVariant>
 
@@ -33,8 +33,8 @@ namespace logo
 		/**
 		 *	qreal Stack. I could use QStack but it is the same thing, so i refuse to.
 		 */
-		extern QVector<qreal>				stack;
-		extern QVector<QString>				strings;
+		extern QStack<qreal>							stack;
+		extern QVector<QString>						strings;
 		extern QHash<QString, QVariant>		variables;
 
 		///	Print will print text on screen. 

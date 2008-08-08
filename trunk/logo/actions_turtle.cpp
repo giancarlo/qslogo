@@ -10,6 +10,7 @@
 #include "debug.hpp"
 #include "actions.hpp"
 #include "window.hpp"
+#include "turtle.hpp"
 
 namespace logo
 {
@@ -18,7 +19,7 @@ namespace logo
 		
 		void xcor(IterT, IterT)
 		{
-			stack.push_back(logo::win->turtle->x());
+			stack.push(logo::win->turtle->x());
 		}
 
 		/*
@@ -26,15 +27,14 @@ namespace logo
 		 */
 		void ycor(IterT, IterT)
 		{
-			stack.push_back(logo::win->turtle->y());
+			stack.push(logo::win->turtle->y());
 		}
 
 		void forward(IterT, IterT)
 		{	
 			if (!stack.isEmpty())
 			{
-				logo::win->turtle->translate(0, - stack.last());
-				stack.pop_back();
+				logo::win->turtle->forward(stack.pop());
 			}
 		}
 
@@ -42,8 +42,7 @@ namespace logo
 		{
 			if (!stack.isEmpty())
 			{
-				logo::win->turtle->translate(0, stack.last());
-				stack.pop_back();
+				logo::win->turtle->backward(stack.pop());
 			}
 		}
 
@@ -51,17 +50,7 @@ namespace logo
 		{
 			if (!stack.isEmpty())
 			{
-				// middle x and y to rotate around
-				/*int mx = logo::win->turtle->width() / 2;
-				int my = logo::win->turtle->height()/ 2;
-
-			  logo::win->turtle->setTransform(QTransform()
-					.translate(mx, my)
-					.rotate(stack.last())
-					.translate(-mx, -my)
-				);*/
-				logo::win->turtle->rotate(stack.last());
-				stack.pop_back();
+				logo::win->turtle->rotate(stack.pop());
 			}
 		}
 
@@ -69,8 +58,7 @@ namespace logo
 		{
 			if (!stack.isEmpty())
 			{
-				logo::win->turtle->rotate(- stack.last());
-				stack.pop_back();
+				logo::win->turtle->rotate(- stack.pop());
 			}
 		}
 	}

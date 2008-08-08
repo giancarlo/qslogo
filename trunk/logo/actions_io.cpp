@@ -9,6 +9,7 @@
 #include "debug.hpp"
 #include "actions.hpp"
 #include "window.hpp"
+#include "turtle.hpp"
 
 namespace logo 
 {
@@ -51,17 +52,15 @@ namespace logo
 
 		void clear_screen(IterT, IterT)
 		{
-			QList<QGraphicsItem*> list = logo::win->scene->items();
+			const QList<QGraphicsItem*> &list = logo::win->scene->items();
 
-			// WARNING: This might produce memory leaks. Please check
-			// TODO: We have to somewhat record the lines we make and all that stuff maybe 
-			// make it into a polygon! YES! I have no idea how it will work but I'm 
-			// pretty sure it is indeed possible.
-			for (QList<QGraphicsItem*>::iterator i = list.begin(); i != list.end(); i++) {
-				// TODO: Fix This Please!
-				if (*i != logo::win->turtle)
+			for (QList<QGraphicsItem*>::const_iterator i = list.begin(); i != list.end(); i++) 
+			{
+				/*if (*i != logo::win->turtle)
+				{
 					logo::win->scene->removeItem(*i);
-				//delete *i;
+					delete *i;
+				}*/
 			}
 		}
 
@@ -71,3 +70,4 @@ namespace logo
 		}
 	}
 }
+

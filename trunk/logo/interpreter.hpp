@@ -22,7 +22,7 @@
 #ifndef LOGO_INTERPRETER_HPP
 #define LOGO_INTERPRETER_HPP
 
-#include "stack.hpp"
+//#include "stack.hpp"
 //#include "symboltable.hpp"
 
 #include <QtCore/QStack>
