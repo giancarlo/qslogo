@@ -107,6 +107,7 @@ logo::window::window(QWidget *parent) : QMainWindow(parent)
 	turtle = new logo::turtle(scene);
 
 	this->setWindowIcon(QIcon(":/resources/turtle.png"));
+	this->resize(640, 480);
 
 	statusBar()->showMessage("Ready.");
 

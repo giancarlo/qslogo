@@ -34,13 +34,15 @@ namespace logo {
 	class turtle
 	{
 		QGraphicsPixmapItem* pixmap;
+		QGraphicsScene*      scene;
+		QPen								 pen;
 
 		public:
 
 			turtle(QGraphicsScene*);
 			
 			// Sets Pen up(true) or down
-			void pen(logo::pen);
+			void setpen(logo::pen);
 	
 			void moveBy(qreal, qreal);
 			void forward(qreal count);
