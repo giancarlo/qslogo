@@ -47,18 +47,22 @@ namespace logo
 				get,
 				// Turtle Position
 				xcor, ycor,
+				// turtle stuff
+				pen,
 				// Algebra!
 				sum, difference, negate, product, divide, sqrt, power, sqr,
 				// Data
-				make,
+				make, list,
 				// Primitives
 				forward, left, right, back,
 				cs,
 				print, exit,
+				// Control Structures
+				repeat,
 				// Types
 				string, number,
 				// Other
-				eol, invalid, end,
+				eol, invalid, end, comment,
 				// Functions
 				to, other
 			;
@@ -70,29 +74,35 @@ namespace logo
 				eol			=	(*eol_p | +space_p);
 
 				number		= real_p[&logo::action::number];
-				string		= confix_p('"', (*graph_p)[&logo::action::string], '"');
+				string		= confix_p('[', (*graph_p)[&logo::action::string], ']');
+
 				expression	= string | number;
 				identifier  = lexeme_d[+alnum_p];
 
-				//sum			= (lexeme_d[str_p("sum")] >> number >> eol)[&logo::action::sum];
-				//difference	= (lexeme_d[str_p("dif")] >> number >> eol)[&logo::action::dif];
-				//product		= (lexeme_d[str_p("prod")]>> number >> eol)[&logo::action::product];
-				//divide		= (lexeme_d[str_p("div")] >> number >> eol)[&logo::action::divide];
-				//negate		= (lexeme_d[str_p("neg")] >> number >> eol)
-				sqr			= (lexeme_d[str_p("sqr")] >> number >> eol)[&logo::action::sqr];
-				make		= (lexeme_d[str_p("make")] >> identifier >> expression >> eol)[&logo::action::make];
+				/*sum			= (lexeme_d[str_p("sum")] >> number >> eol)[&logo::action::sum];
+				difference	= (lexeme_d[str_p("dif")] >> number >> eol)[&logo::action::dif];
+				product		= (lexeme_d[str_p("prod")]>> number >> eol)[&logo::action::product];
+				divide		= (lexeme_d[str_p("div")] >> number >> eol)[&logo::action::divide];
+				negate		= (lexeme_d[str_p("neg")] >> number >> eol)
+				*/
+				repeat	= (str_p("repeat") >> number
+										>> confix_p('[', *statement, ']')
+									>> end)[&logo::action::repeat];
 
-				forward		= (lexeme_d[str_p("forward") | str_p("fd")] >>  number >> eol)[&logo::action::forward];
-				back		= (lexeme_d[str_p("back") | str_p("bk")] >> number >> eol)[&logo::action::back];
-				right		= (lexeme_d[str_p("right") | str_p("rt")] >> number >> eol)[&logo::action::right];
-				left		= (lexeme_d[str_p("left")  | str_p("lt")] >> number >> eol)[&logo::action::left];
+				sqr			= (str_p("sqr") >> number >> eol)[&logo::action::sqr];
+				make		= (str_p("make") >> identifier >> expression >> eol)[&logo::action::make];
+
+				forward		= (str_p("forward") | str_p("fd") >>  number >> eol)[&logo::action::forward];
+				back		= (str_p("back") | str_p("bk") >> number >> eol)[&logo::action::back];
+				right		= (str_p("right") | str_p("rt") >> number >> eol)[&logo::action::right];
+				left		= (str_p("left")  | str_p("lt") >> number >> eol)[&logo::action::left];
 
 
-				xcor		=	lexeme_d[str_p("xcor")][&logo::action::xcor] >> eol;
-				ycor		=	lexeme_d[str_p("ycor")][&logo::action::ycor] >> eol;
+				xcor		=	str_p("xcor")[&logo::action::xcor] >> eol;
+				ycor		=	str_p("ycor")[&logo::action::ycor] >> eol;
 				
-				get			=	lexeme_d[str_p("get")] >> +space_p >> 
-									lexeme_d[str_p("turtle")] >> +space_p >> 
+				get			=	str_p("get") >> +space_p >> 
+									str_p("turtle") >> +space_p >> 
 										(
 										str_p("x")[&logo::action::xcor] |
 										str_p("y")[&logo::action::ycor]
@@ -100,26 +110,33 @@ namespace logo
 								>> eol;
 
 				cs			=	(
-									lexeme_d[str_p("cs")] | 
-									(lexeme_d[str_p("clear")] >> lexeme_d[str_p("screen")])
+									str_p("cs") | 
+									(str_p("clear") >> str_p("screen"))
 								) [ &logo::action::clear_screen ]
 								>> eol;
 
-				end			= lexeme_d[str_p("end")] >> eol;
-				to			= (lexeme_d[str_p("to")] >> identifier[&logo::action::to]) 
+				end			= str_p("end") >> eol;
+				to			= (str_p("to") >> identifier[&logo::action::to]) 
 									>> *statement 
 									>> end;
 
+				pen			= str_p("pen") >>
+										(str_p("up")[&logo::action::penup] |
+										str_p("down")[&logo::action::pendown])
+									>> eol;
+
+				comment = ch_p(';') >> (*graph_p - eol) >> eol;
+
 				other   = identifier[&logo::action::call];
 
-				print		= (lexeme_d[str_p("print")] >> expression)[&logo::action::print] >> eol;
-				exit		= lexeme_d[str_p("exit")][&logo::action::exit] >> eol;
+				print		= (str_p("print") >> expression)[&logo::action::print] >> eol;
+				exit		= str_p("exit")[&logo::action::exit] >> eol;
 				//invalid		= (*graph_p);
 				statement	=	(
 								back | forward | right | left |
-								xcor | ycor |
+								xcor | ycor | pen |
 								print | cs | get | 
-								exit | other
+								exit | other | comment
 								);
 
 				statements = *statement;

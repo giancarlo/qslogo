@@ -61,5 +61,15 @@ namespace logo
 				logo::win->turtle->rotate(- stack.pop());
 			}
 		}
+
+		void penup(IterT, IterT)
+		{
+			logo::win->turtle->setpen(logo::up);		
+		}
+
+		void pendown(IterT, IterT)
+		{
+			logo::win->turtle->setpen(logo::down);
+		}
 	}
 }

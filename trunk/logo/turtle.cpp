@@ -17,6 +17,14 @@ logo::turtle::turtle(QGraphicsScene* scenes)
 	pen.setWidth(1);
 }
 
+void logo::turtle::setpen(logo::pen what)
+{
+	switch (what) {
+	case logo::up   : pen.setStyle(Qt::NoPen); break;
+	case logo::down : pen.setStyle(Qt::SolidLine); break;
+	};	
+}
+
 qreal logo::turtle::x()
 {
 	return pixmap->x();
