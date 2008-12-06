@@ -50,13 +50,13 @@ namespace logo
 
 		/*
 		 *	Turtle Actions and Queries
+		 *	logo/actions_turtle.cpp
 		 */
-		/// Returns X Coordinate
 		void xcor(IterT, IterT);
-		/// Returns Y Coordinate
 		void ycor(IterT, IterT);
 		void penup(IterT, IterT);
 		void pendown(IterT, IterT);
+		void home(IterT, IterT);
 
 		void string(IterT, IterT);
 		void number(float);

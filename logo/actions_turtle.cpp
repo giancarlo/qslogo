@@ -71,5 +71,10 @@ namespace logo
 		{
 			logo::win->turtle->setpen(logo::down);
 		}
+
+		void home(IterT, IterT)
+		{
+			logo::win->turtle->reset();
+		}
 	}
 }
