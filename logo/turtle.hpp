@@ -49,6 +49,8 @@ namespace logo {
 			void backward(qreal count);
 			void rotate(qreal degree);
 
+			QGraphicsPixmapItem* item();
+
 			void reset();
 
 			qreal x();

@@ -42,7 +42,7 @@ namespace logo
         {
 
 			boost::spirit::rule<ScannerT>  
-				expression, statement, identifier, statements,
+				expression, statement, identifier, statements, function,
 				// Addons
 				get,
 				// Turtle Position
@@ -50,7 +50,7 @@ namespace logo
 				// turtle stuff
 				pen,
 				// Algebra!
-				sum, difference, negate, product, divide, sqrt, power, sqr, term, unary, factor,
+				sum, difference, negate, product, divide, sqrt, power, sqr, term,
 				// Data
 				make, list,
 				// Primitives
@@ -78,32 +78,31 @@ namespace logo
 
 				identifier  = lexeme_d[+alnum_p];
 
+				/* actions_arit.cpp */
 				sum			= (str_p("sum") >> expression >> eol >> expression >> eol)[&logo::action::sum];
 				difference	= (str_p("dif") >> expression >> eol >> expression >> eol)[&logo::action::dif];
 				product		= (str_p("prod")>> expression >> eol >> expression >> eol)[&logo::action::product];
 				divide		= (str_p("div") >> expression >> eol >> expression >> eol)[&logo::action::divide];
-				negate		= (str_p("neg") >> number >> eol)[&logo::action::negate];
+
+				negate		= (str_p("neg") >> expression >> eol)[&logo::action::negate];
+				sqr			= (str_p("sqr") >> expression >> eol)[&logo::action::sqr];
 				
-				//unary		= negate | number;
-				term		= sum | difference | product | divide | negate | number;
-				//factor		= product | divide | unary;
-				expression	= string | term;
+				term		= sum | difference | product | divide | negate | sqr | number;
+				expression	= string | term | function;
 
 				repeat	= (str_p("repeat") >> number
 										>> confix_p('[', *statement, ']')
 									>> end)[&logo::action::repeat];
 
-				sqr			= (str_p("sqr") >> expression >> eol)[&logo::action::sqr];
 				make		= (str_p("make") >> identifier >> expression >> eol)[&logo::action::make];
+
+				/* TURTLE Commands */
 
 				forward		= ((str_p("forward") | str_p("fd")) >>  expression >> eol)[&logo::action::forward];
 				back		= ((str_p("back") | str_p("bk")) >> expression >> eol)[&logo::action::back];
 				right		= ((str_p("right") | str_p("rt")) >> expression >> eol)[&logo::action::right];
 				left		= ((str_p("left")  | str_p("lt")) >> expression >> eol)[&logo::action::left];
 
-				xcor		=	str_p("xcor")[&logo::action::xcor] >> eol;
-				ycor		=	str_p("ycor")[&logo::action::ycor] >> eol;
-				
 				get			=	str_p("get") >> +space_p >> 
 									str_p("turtle") >> +space_p >> 
 										(
@@ -111,6 +110,19 @@ namespace logo
 										str_p("y")[&logo::action::ycor]
 										)
 								>> eol;
+
+				pen			= str_p("pen") >>
+										(str_p("up")[&logo::action::penup] |
+										str_p("down")[&logo::action::pendown])
+									>> eol;
+
+				/* FUNCTIONS */
+				xcor		=	str_p("xcor")[&logo::action::xcor] >> eol;
+				ycor		=	str_p("ycor")[&logo::action::ycor] >> eol;
+
+				function	= xcor | ycor;
+
+				/* Screen Commands */
 
 				cs			=	(
 									str_p("cs") | 
@@ -123,10 +135,6 @@ namespace logo
 									>> *statement 
 									>> end;
 
-				pen			= str_p("pen") >>
-										(str_p("up")[&logo::action::penup] |
-										str_p("down")[&logo::action::pendown])
-									>> eol;
 
 				comment = ch_p(';') >> (*graph_p - eol) >> eol;
 
