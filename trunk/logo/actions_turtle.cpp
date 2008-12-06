@@ -76,5 +76,10 @@ namespace logo
 		{
 			logo::win->turtle->reset();
 		}
+
+		void circle(IterT, IterT)
+		{
+			logo::win->turtle->circle(stack.pop().toDouble());	
+		}
 	}
 }

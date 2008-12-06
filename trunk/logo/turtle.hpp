@@ -27,6 +27,8 @@
 
 #include "window.hpp"
 
+#define COS45 (0.70710678)
+
 namespace logo {
 
 	enum pen { up, down, erase };
@@ -48,6 +50,9 @@ namespace logo {
 			void forward(qreal count);
 			void backward(qreal count);
 			void rotate(qreal degree);
+
+			// TODO Is this good here? 
+			void circle(qreal radius);
 
 			QGraphicsPixmapItem* item();
 

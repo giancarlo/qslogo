@@ -55,7 +55,8 @@ namespace logo
 				make, list,
 				// Primitives
 				forward, left, right, back,
-				cs,
+				circle,
+				cs, 
 				print, exit, home,
 				// Control Structures
 				repeat,
@@ -117,6 +118,7 @@ namespace logo
 									>> eol;
 
 				home		= (str_p("home") >> eol)[&logo::action::home];
+				circle		= (str_p("circle") >> expression >> eol)[&logo::action::circle];
 
 				/* FUNCTIONS */
 				xcor		=	str_p("xcor")[&logo::action::xcor] >> eol;
@@ -145,7 +147,7 @@ namespace logo
 				print		= (str_p("print") >> expression)[&logo::action::print] >> eol;
 				exit		= str_p("exit")[&logo::action::exit] >> eol;
 				statement	=	(
-								back | forward | right | left | home |
+								back | forward | right | left | home | circle |
 								xcor | ycor | pen |
 								print | cs | get | 
 								exit | comment |
