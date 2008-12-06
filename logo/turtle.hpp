@@ -49,8 +49,11 @@ namespace logo {
 			void backward(qreal count);
 			void rotate(qreal degree);
 
+			void reset();
+
 			qreal x();
 			qreal y();
+			const QPointF pos();
 
 	};
 

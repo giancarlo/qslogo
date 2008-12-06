@@ -25,14 +25,24 @@ void logo::turtle::setpen(logo::pen what)
 	};	
 }
 
+void logo::turtle::reset()
+{
+	pixmap->resetTransform();
+}
+
 qreal logo::turtle::x()
 {
-	return pixmap->x();
+	return pixmap->transform().dx();
 }
 
 qreal logo::turtle::y()
 {
-	return pixmap->y();
+	return pixmap->transform().dy();
+}
+
+const QPointF logo::turtle::pos()
+{
+	return QPointF(x(), y());
 }
 
 void logo::turtle::forward(qreal count)

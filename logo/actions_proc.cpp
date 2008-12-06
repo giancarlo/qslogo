@@ -27,9 +27,14 @@ namespace logo {
 
 	namespace action {
 
-		void to(IterT first, IterT last)
+		void to(IterT, IterT)
 		{
 			
+
+		}
+
+		void repeat(IterT, IterT)
+		{
 
 		}
 
