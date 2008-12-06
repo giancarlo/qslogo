@@ -100,7 +100,9 @@ namespace logo
 				/* Control Statements */
 				repeat		= str_p("repeat") >> expression >> (*statement)[&logo::action::repeat];
 				make		= (str_p("make") >> string >> expression >> eol)[&logo::action::make];
-				thing		= (str_p("thing") >> string >> eol)[&logo::action::thing];
+				thing		= (str_p("thing") >> string >> eol)[&logo::action::thing] |
+							  (str_p(":") >> identifier[&logo::action::string] >> eol)[&logo::action::thing]
+							  ;
 
 				/* TURTLE Commands */
 
