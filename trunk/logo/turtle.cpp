@@ -17,6 +17,11 @@ logo::turtle::turtle(QGraphicsScene* scenes)
 	pen.setWidth(1);
 }
 
+QGraphicsPixmapItem* logo::turtle::item()
+{
+	return pixmap;
+}
+
 void logo::turtle::setpen(logo::pen what)
 {
 	switch (what) {

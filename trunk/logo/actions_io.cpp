@@ -57,11 +57,11 @@ namespace logo
 			
 			for (QList<QGraphicsItem*>::const_iterator i = list.begin(); i != list.end(); i++) 
 			{
-				/*if (*i != logo::win->turtle)
+				if (*i != static_cast<QGraphicsItem*>(logo::win->turtle->item()))
 				{
 					logo::win->scene->removeItem(*i);
 					delete *i;
-				}*/
+				}
 			}
 
 			logo::win->turtle->reset();
