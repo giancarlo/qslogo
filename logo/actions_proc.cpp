@@ -22,6 +22,7 @@
 #include "main.hpp"
 #include "actions.hpp"
 #include "window.hpp"
+#include "interpreter.hpp"
 
 namespace logo {
 
@@ -33,9 +34,21 @@ namespace logo {
 
 		}
 
-		void repeat(IterT, IterT)
+		/*
+		 *  Ok So the trick here is to reevaluate the string inside IterT and IterT.
+		 *  It is always executed once.
+		 *
+		 *  Problems: This assumes the stack contains the repeat value. Which might not be right.
+		 *  TODO Needs to be fixed. 
+		 */
+		void repeat(IterT start, IterT end)
 		{
+			logo::interpreter g;
 
+			for (int i = stack.pop().toInt(); i > 1; --i)
+			{
+				g.parse(start, end);
+			}
 		}
 
 		void call(IterT first, IterT last)

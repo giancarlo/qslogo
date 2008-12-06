@@ -30,6 +30,12 @@
 
 namespace logo
 {
+	/*
+	struct repeat_closure : boost::spirit::closure<repeat_closure, qreal>
+	{
+		member1 val;
+	};
+	*/
 
 	struct grammar : public boost::spirit::grammar<grammar>
     {
@@ -91,9 +97,7 @@ namespace logo
 				term		= sum | difference | product | divide | negate | sqr | number;
 				expression	= string | term | function;
 
-				repeat	= (str_p("repeat") >> number
-										>> confix_p('[', *statement, ']')
-									>> end)[&logo::action::repeat];
+				repeat		= str_p("repeat") >> expression >> (*statement)[&logo::action::repeat];
 
 				make		= (str_p("make") >> identifier >> expression >> eol)[&logo::action::make];
 
@@ -150,6 +154,7 @@ namespace logo
 								back | forward | right | left | home | circle |
 								xcor | ycor | pen |
 								print | cs | get | 
+								repeat |
 								exit | comment |
 								other
 								);
