@@ -56,7 +56,7 @@ namespace logo
 				// Primitives
 				forward, left, right, back,
 				cs,
-				print, exit,
+				print, exit, home,
 				// Control Structures
 				repeat,
 				// Types
@@ -116,6 +116,8 @@ namespace logo
 										str_p("down")[&logo::action::pendown])
 									>> eol;
 
+				home		= (str_p("home") >> eol)[&logo::action::home];
+
 				/* FUNCTIONS */
 				xcor		=	str_p("xcor")[&logo::action::xcor] >> eol;
 				ycor		=	str_p("ycor")[&logo::action::ycor] >> eol;
@@ -143,7 +145,7 @@ namespace logo
 				print		= (str_p("print") >> expression)[&logo::action::print] >> eol;
 				exit		= str_p("exit")[&logo::action::exit] >> eol;
 				statement	=	(
-								back | forward | right | left |
+								back | forward | right | left | home |
 								xcor | ycor | pen |
 								print | cs | get | 
 								exit | comment |
