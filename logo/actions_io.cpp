@@ -15,9 +15,6 @@ namespace logo
 {
 	namespace action
 	{
-		void make(IterT, IterT)
-		{
-		}
 
 		void string(IterT a, IterT b)
 		{

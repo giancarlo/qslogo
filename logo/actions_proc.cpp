@@ -34,6 +34,19 @@ namespace logo {
 
 		}
 
+		void make(IterT, IterT)
+		{
+			QVariant value = stack.pop();
+			QString  name  = stack.pop().toString();
+			variables[name] = value;
+		}
+
+		void thing(IterT, IterT)
+		{
+			QString name = stack.pop().toString();
+			stack.push(variables[name]);
+		}
+
 		/*
 		 *  Ok So the trick here is to reevaluate the string inside IterT and IterT.
 		 *  It is always executed once.

@@ -45,6 +45,8 @@ namespace logo
 		void exit(IterT, IterT);
 		/// Define a variable
 		void make(IterT, IterT);
+		/// GETS a variable
+		void thing(IterT, IterT);
 
 		void repeat(IterT, IterT);
 

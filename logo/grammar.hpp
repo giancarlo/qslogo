@@ -58,7 +58,7 @@ namespace logo
 				// Algebra!
 				sum, difference, negate, product, divide, sqrt, power, sqr, term,
 				// Data
-				make, list,
+				make, list, thing,
 				// Primitives
 				forward, left, right, back,
 				circle,
@@ -96,10 +96,11 @@ namespace logo
 				
 				term		= sum | difference | product | divide | negate | sqr | number;
 				expression	= string | term | function;
-
+				
+				/* Control Statements */
 				repeat		= str_p("repeat") >> expression >> (*statement)[&logo::action::repeat];
-
-				make		= (str_p("make") >> identifier >> expression >> eol)[&logo::action::make];
+				make		= (str_p("make") >> string >> expression >> eol)[&logo::action::make];
+				thing		= (str_p("thing") >> string >> eol)[&logo::action::thing];
 
 				/* TURTLE Commands */
 
@@ -128,7 +129,7 @@ namespace logo
 				xcor		=	str_p("xcor")[&logo::action::xcor] >> eol;
 				ycor		=	str_p("ycor")[&logo::action::ycor] >> eol;
 
-				function	= xcor | ycor;
+				function	= xcor | ycor | thing;
 
 				/* Screen Commands */
 
@@ -155,6 +156,7 @@ namespace logo
 								xcor | ycor | pen |
 								print | cs | get | 
 								repeat |
+								make | thing |
 								exit | comment |
 								other
 								);
