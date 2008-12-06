@@ -58,6 +58,8 @@ namespace logo
 		void pendown(IterT, IterT);
 		void home(IterT, IterT);
 
+		void circle(IterT, IterT);
+
 		void string(IterT, IterT);
 		void number(float);
 

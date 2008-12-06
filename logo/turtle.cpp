@@ -72,3 +72,11 @@ void logo::turtle::moveBy(qreal dx, qreal dy)
 	pixmap->moveBy(dx, dy);
 }
 
+void logo::turtle::circle(qreal radius)
+{
+	// Calculate Rect
+	qreal t = radius * COS45;
+	QGraphicsEllipseItem* i = scene->addEllipse(-t, -t, t+t, t+t, pen);
+	i->setPos(x(), y());
+}
+
