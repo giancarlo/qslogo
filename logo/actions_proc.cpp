@@ -28,10 +28,10 @@ namespace logo {
 
 	namespace action {
 
-		void to(IterT, IterT)
+		void to(IterT start, IterT end)
 		{
-			
-
+			QString name = stack.pop().toString();
+			functions[name] = QString(start, end-start);
 		}
 
 		void make(IterT, IterT)
@@ -56,20 +56,26 @@ namespace logo {
 		 */
 		void repeat(IterT start, IterT end)
 		{
-			logo::interpreter g;
-
 			for (int i = stack.pop().toInt(); i > 1; --i)
 			{
-				g.parse(start, end);
+				win->interpreter->parse(start, end);
 			}
 		}
 
 		void call(IterT first, IterT last)
 		{
-			QString x = QString::fromAscii(first, last-first);
-			x.prepend("I don't know how to ");
-
-			win->statusBar()->showMessage(x);
+			QString x(first, last-first);
+			// See if it is a function
+			if (functions.contains(x))
+			{
+				QString& hello = functions[x];
+				win->interpreter->parse(hello.constBegin(), hello.constEnd());
+			} 
+			else
+			{
+				x.prepend("I don't know how to ");
+				win->statusBar()->showMessage(x);
+			}
 		}
 
 	}

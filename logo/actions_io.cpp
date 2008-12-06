@@ -18,7 +18,7 @@ namespace logo
 
 		void string(IterT a, IterT b)
 		{
-			stack.push_back(QString::fromUtf8(a, b-a));
+			stack.push_back(QString(a, b-a));
 		}
 
 		void number(float a)
