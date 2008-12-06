@@ -81,7 +81,9 @@ namespace logo
 				eol			=	(*eol_p | +space_p);
 
 				number		= real_p[&logo::action::number];
-				string		= confix_p('[', (*graph_p)[&logo::action::string], ']');
+				string		= confix_p('[', (*graph_p)[&logo::action::string], ']') |
+							  (ch_p('"') >> identifier[&logo::action::string])
+							  ;
 
 				identifier  = lexeme_d[+alnum_p];
 
