@@ -33,9 +33,9 @@ namespace logo
 		/**
 		 *	qreal Stack. I could use QStack but it is the same thing, so i refuse to.
 		 */
-		extern QStack<QVariant>							stack;
-		extern QVector<QString>						strings;
+		extern QStack<QVariant>				stack;
 		extern QHash<QString, QVariant>		variables;
+		extern QHash<QString, QString>		functions;
 
 		///	Print will print text on screen. 
 		void print(IterT, IterT);

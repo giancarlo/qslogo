@@ -38,6 +38,8 @@
 #include <QtGui/QStatusBar>
 #include <QtGui/QGraphicsPixmapItem>
 
+#include "interpreter.hpp"
+
 namespace logo
 {
 
@@ -88,6 +90,11 @@ namespace logo
 		logo::turtle* turtles;
 		logo::turtle* turtle;
 		//QGraphicsPixmapItem*	turtle;
+
+		/*
+		 * Interpreter
+		 */
+		logo::interpreter* interpreter;
 
 };
 

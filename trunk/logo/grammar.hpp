@@ -22,22 +22,19 @@
 #ifndef LOGO_GRAMMAR_HPP
 #define LOGO_GRAMMAR_HPP
 
-#include <boost/spirit/core.hpp>
-#include <boost/spirit/utility/confix.hpp>
-//#include <QGraphicsScene>
-
+#include "spirit.hpp"
 #include "actions.hpp"
 
 namespace logo
 {
 	/*
-	struct repeat_closure : boost::spirit::closure<repeat_closure, qreal>
+	struct repeat_closure : LOGO_SPIRIT_NS::closure<repeat_closure, qreal>
 	{
 		member1 val;
 	};
 	*/
 
-	struct grammar : public boost::spirit::grammar<grammar>
+	struct grammar : public LOGO_SPIRIT_NS::grammar<grammar>
     {
 
 		/*
@@ -47,7 +44,7 @@ namespace logo
         struct definition
         {
 
-			boost::spirit::rule<ScannerT>  
+			LOGO_SPIRIT_NS::rule<ScannerT>  
 				expression, statement, identifier, statements, function,
 				// Addons
 				get,
@@ -74,9 +71,9 @@ namespace logo
 				to, other
 			;
 
-			definition(grammar const& self)  
+			definition(grammar const& /* self */)  
 			{
-				using namespace boost::spirit;
+				using namespace LOGO_SPIRIT_NS;
 
 				eol			=	(*eol_p | +space_p);
 
@@ -133,7 +130,7 @@ namespace logo
 				xcor		=	str_p("xcor")[&logo::action::xcor] >> eol;
 				ycor		=	str_p("ycor")[&logo::action::ycor] >> eol;
 
-				function	= xcor | ycor | thing;
+				function	= xcor | ycor | thing | other;
 
 				/* Screen Commands */
 
@@ -144,9 +141,9 @@ namespace logo
 								>> eol;
 
 				end			= str_p("end") >> eol;
-				to			= (str_p("to") >> identifier[&logo::action::to]) 
-									>> *statement 
-									>> end;
+				to			= str_p("to") >> identifier[&logo::action::string]
+									>> (no_actions_d[*statement])[&logo::action::to]
+							>> end;
 
 
 				comment = ch_p(';') >> (*graph_p - eol) >> eol;
@@ -154,7 +151,7 @@ namespace logo
 				other   = identifier[&logo::action::call];
 
 				print		= (str_p("print") >> expression)[&logo::action::print] >> eol;
-				exit		= (str_p("exit") | str_p("bye"))[&logo::action::exit] >> eol;
+				exit		= str_p("bye")[&logo::action::exit] >> eol;
 				statement	=	(
 								back | forward | right | left | home | circle |
 								xcor | ycor | pen |
@@ -168,7 +165,7 @@ namespace logo
 				statements = *statement;
 			}
            
-			boost::spirit::rule<ScannerT> const& start() const 
+			LOGO_SPIRIT_NS::rule<ScannerT> const& start() const 
 			{ 
 				return statements; 
 			}

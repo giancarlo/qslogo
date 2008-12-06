@@ -27,13 +27,14 @@
 namespace logo { namespace action {
 	QStack<QVariant>			stack;
 	QHash<QString, QVariant>	variables;
+	QHash<QString, QString>		functions;
 }}
 
 void logo::interpreter::parse(logo::action::IterT a, logo::action::IterT b)
 {
 	logo::grammar g;
 
-	boost::spirit::parse(a, b, g, boost::spirit::space_p);
+	LOGO_SPIRIT_NS::parse(a, b, g, LOGO_SPIRIT_NS::space_p);
 
 	// if (!stack.isEmpty || !strings.isEmpty)
 }

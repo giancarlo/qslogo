@@ -22,6 +22,8 @@
 #ifndef LOGO_MAIN_HPP
 #define LOGO_MAIN_HPP
 
+#include <QString>
+
 namespace logo
 {
 	namespace action
@@ -29,8 +31,12 @@ namespace logo
 		/**
 		 *	Just in case we need to correct the char iterator type. 
 		 */	
-		typedef const char*		IterT;
+		typedef QChar				CharT;
+		typedef const CharT*		IterT;
+		
 	}
+
+
 }
 
 #endif

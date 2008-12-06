@@ -28,6 +28,8 @@
 #include <QtCore/QStack>
 #include <QtCore/QVector>
 
+#include "main.hpp"
+
 namespace logo
 {
 	/**
@@ -47,7 +49,8 @@ namespace logo
 		 *	Parses the data contained in the pointers (first to last).
 		 *	Throws an exception only if an error occurs.
 		 */
-		void parse(const char* first, const char* last);
+		void parse(logo::action::IterT first, logo::action::IterT last);
+
 	};
 }
 

@@ -25,8 +25,8 @@
 #include <QResource>
 
 #include "debug.hpp"
-#include "window.hpp"
 #include "interpreter.hpp"
+#include "window.hpp"
 #include "turtle.hpp"
 
 namespace logo {
@@ -42,13 +42,10 @@ namespace logo {
  */
 void logo::window::onReturnPressed() {
 	
-	logo::interpreter g;
-
 	log->addItem(command->text());
 
-	QByteArray cmd = command->text().toAscii();
-	g.parse(cmd.data(), cmd.data() + cmd.length());
-
+	this->interpreter->parse(command->text().constBegin(), command->text().constEnd());
+	
 	command->clear();
 }
 
@@ -64,6 +61,9 @@ logo::window::window(QWidget *parent) : QMainWindow(parent)
 	QResource::registerResource("resources.rcc");
 
 	setWindowTitle("qsLogo 1.0");
+
+	// Set Our Interpreter!
+	interpreter = new logo::interpreter;
 
 	// set tabs
 	tabs = new QTabWidget(this);
@@ -123,12 +123,13 @@ logo::window::window(QWidget *parent) : QMainWindow(parent)
 logo::window::~window()
 {
 	delete turtle;
+	delete interpreter;
 }
 
 /**
  *	Change the Graphics View Viewpoint
  */
-void logo::window::resizeEvent(QResizeEvent *event)
+void logo::window::resizeEvent(QResizeEvent * /*event*/)
 {
 	qreal w = scene->width();
 	qreal h = scene->height();

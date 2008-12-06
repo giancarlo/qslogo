@@ -27,6 +27,10 @@ void logo::turtle::setpen(logo::pen what)
 	switch (what) {
 	case logo::up   : pen.setStyle(Qt::NoPen); break;
 	case logo::down : pen.setStyle(Qt::SolidLine); break;
+	/* TODO Implement */
+	case logo::erase : break;
+	default:
+		;
 	};	
 }
 
