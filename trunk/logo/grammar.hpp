@@ -154,7 +154,7 @@ namespace logo
 				other   = identifier[&logo::action::call];
 
 				print		= (str_p("print") >> expression)[&logo::action::print] >> eol;
-				exit		= str_p("exit")[&logo::action::exit] >> eol;
+				exit		= (str_p("exit") | str_p("bye"))[&logo::action::exit] >> eol;
 				statement	=	(
 								back | forward | right | left | home | circle |
 								xcor | ycor | pen |
