@@ -17,9 +17,33 @@ namespace logo
 		/// Square
 		void sqr(IterT, IterT)
 		{
-			qreal n = stack.last();
-			stack.pop_back();
+			qreal n = stack.pop().toDouble();
 			stack.push_back(n * n);
+		}
+
+		void sum(IterT, IterT)
+		{
+			stack.push(stack.pop().toDouble() + stack.pop().toDouble());
+		}
+
+		void dif(IterT, IterT)
+		{
+			stack.push(stack.pop().toDouble() - stack.pop().toDouble());
+		}
+
+		void product(IterT, IterT)
+		{
+			stack.push(stack.pop().toDouble() * stack.pop().toDouble());
+		}
+
+		void divide(IterT, IterT)
+		{
+			stack.push(stack.pop().toDouble() / stack.pop().toDouble());
+		}
+
+		void negate(IterT, IterT)
+		{
+			stack.push(- stack.pop().toDouble());
 		}
 	}
 }

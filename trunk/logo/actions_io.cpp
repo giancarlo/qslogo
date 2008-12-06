@@ -21,8 +21,7 @@ namespace logo
 
 		void string(IterT a, IterT b)
 		{
-			// WARNING: Ansi to Unicode string conversion. 
-			strings.push_back(QString::fromUtf8(a, b-a));
+			stack.push_back(QString::fromUtf8(a, b-a));
 		}
 
 		void number(float a)
@@ -33,7 +32,8 @@ namespace logo
 		void print(IterT, IterT)
 		{
 			// If there is an element in the number stack print that.
-			if ( stack.isEmpty() )
+			// TODO Fix this
+			/*if ( stack.isEmpty() )
 			{
 				// Print all the strings in strings stack. Make sure the turtle moves when printing.
 				for (int i = 0; i < strings.size(); i++)
@@ -44,16 +44,17 @@ namespace logo
 					logo::win->turtle->moveBy(text->boundingRect().width(), text->boundingRect().height());
 				}
 			} else
-			{
-				QGraphicsTextItem* text = logo::win->scene->addText( QString::number(stack.last()) );
-				logo::win->turtle->moveBy(text->textWidth(), 0);
-			}
+			{*/
+			QGraphicsTextItem* text = logo::win->scene->addText( stack.last().toString() );
+			text->setPos(logo::win->turtle->pos());
+			logo::win->turtle->moveBy(text->textWidth(), 0);
+			
 		}
 
 		void clear_screen(IterT, IterT)
 		{
 			const QList<QGraphicsItem*> &list = logo::win->scene->items();
-
+			
 			for (QList<QGraphicsItem*>::const_iterator i = list.begin(); i != list.end(); i++) 
 			{
 				/*if (*i != logo::win->turtle)
@@ -62,6 +63,8 @@ namespace logo
 					delete *i;
 				}*/
 			}
+
+			logo::win->turtle->reset();
 		}
 
 		void exit(IterT, IterT)

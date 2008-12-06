@@ -50,7 +50,7 @@ namespace logo
 				// turtle stuff
 				pen,
 				// Algebra!
-				sum, difference, negate, product, divide, sqrt, power, sqr,
+				sum, difference, negate, product, divide, sqrt, power, sqr, term, unary, factor,
 				// Data
 				make, list,
 				// Primitives
@@ -76,27 +76,30 @@ namespace logo
 				number		= real_p[&logo::action::number];
 				string		= confix_p('[', (*graph_p)[&logo::action::string], ']');
 
-				expression	= string | number;
 				identifier  = lexeme_d[+alnum_p];
 
-				/*sum			= (lexeme_d[str_p("sum")] >> number >> eol)[&logo::action::sum];
-				difference	= (lexeme_d[str_p("dif")] >> number >> eol)[&logo::action::dif];
-				product		= (lexeme_d[str_p("prod")]>> number >> eol)[&logo::action::product];
-				divide		= (lexeme_d[str_p("div")] >> number >> eol)[&logo::action::divide];
-				negate		= (lexeme_d[str_p("neg")] >> number >> eol)
-				*/
+				sum			= (str_p("sum") >> expression >> eol >> expression >> eol)[&logo::action::sum];
+				difference	= (str_p("dif") >> expression >> eol >> expression >> eol)[&logo::action::dif];
+				product		= (str_p("prod")>> expression >> eol >> expression >> eol)[&logo::action::product];
+				divide		= (str_p("div") >> expression >> eol >> expression >> eol)[&logo::action::divide];
+				negate		= (str_p("neg") >> number >> eol)[&logo::action::negate];
+				
+				//unary		= negate | number;
+				term		= sum | difference | product | divide | negate | number;
+				//factor		= product | divide | unary;
+				expression	= string | term;
+
 				repeat	= (str_p("repeat") >> number
 										>> confix_p('[', *statement, ']')
 									>> end)[&logo::action::repeat];
 
-				sqr			= (str_p("sqr") >> number >> eol)[&logo::action::sqr];
+				sqr			= (str_p("sqr") >> expression >> eol)[&logo::action::sqr];
 				make		= (str_p("make") >> identifier >> expression >> eol)[&logo::action::make];
 
-				forward		= (str_p("forward") | str_p("fd") >>  number >> eol)[&logo::action::forward];
-				back		= (str_p("back") | str_p("bk") >> number >> eol)[&logo::action::back];
-				right		= (str_p("right") | str_p("rt") >> number >> eol)[&logo::action::right];
-				left		= (str_p("left")  | str_p("lt") >> number >> eol)[&logo::action::left];
-
+				forward		= ((str_p("forward") | str_p("fd")) >>  expression >> eol)[&logo::action::forward];
+				back		= ((str_p("back") | str_p("bk")) >> expression >> eol)[&logo::action::back];
+				right		= ((str_p("right") | str_p("rt")) >> expression >> eol)[&logo::action::right];
+				left		= ((str_p("left")  | str_p("lt")) >> expression >> eol)[&logo::action::left];
 
 				xcor		=	str_p("xcor")[&logo::action::xcor] >> eol;
 				ycor		=	str_p("ycor")[&logo::action::ycor] >> eol;
@@ -131,12 +134,12 @@ namespace logo
 
 				print		= (str_p("print") >> expression)[&logo::action::print] >> eol;
 				exit		= str_p("exit")[&logo::action::exit] >> eol;
-				//invalid		= (*graph_p);
 				statement	=	(
 								back | forward | right | left |
 								xcor | ycor | pen |
 								print | cs | get | 
-								exit | other | comment
+								exit | comment |
+								other
 								);
 
 				statements = *statement;

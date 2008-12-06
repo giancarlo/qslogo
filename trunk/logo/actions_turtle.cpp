@@ -34,7 +34,7 @@ namespace logo
 		{	
 			if (!stack.isEmpty())
 			{
-				logo::win->turtle->forward(stack.pop());
+				logo::win->turtle->forward(stack.pop().toDouble() );
 			}
 		}
 
@@ -42,7 +42,7 @@ namespace logo
 		{
 			if (!stack.isEmpty())
 			{
-				logo::win->turtle->backward(stack.pop());
+				logo::win->turtle->backward(stack.pop().toDouble() );
 			}
 		}
 
@@ -50,7 +50,7 @@ namespace logo
 		{
 			if (!stack.isEmpty())
 			{
-				logo::win->turtle->rotate(stack.pop());
+				logo::win->turtle->rotate(stack.pop().toDouble() );
 			}
 		}
 
@@ -58,7 +58,7 @@ namespace logo
 		{
 			if (!stack.isEmpty())
 			{
-				logo::win->turtle->rotate(- stack.pop());
+				logo::win->turtle->rotate(- stack.pop().toDouble());
 			}
 		}
 

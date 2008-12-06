@@ -25,7 +25,7 @@
 
 // Ok now here there is our stack declared at actions.hpp as extern of course
 namespace logo { namespace action {
-	QStack<qreal>					stack;
+	QStack<QVariant>					stack;
 	QVector<QString>			strings;
 	QHash<QString, QVariant>	variables;
 }}

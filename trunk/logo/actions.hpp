@@ -33,7 +33,7 @@ namespace logo
 		/**
 		 *	qreal Stack. I could use QStack but it is the same thing, so i refuse to.
 		 */
-		extern QStack<qreal>							stack;
+		extern QStack<QVariant>							stack;
 		extern QVector<QString>						strings;
 		extern QHash<QString, QVariant>		variables;
 
@@ -45,6 +45,8 @@ namespace logo
 		void exit(IterT, IterT);
 		/// Define a variable
 		void make(IterT, IterT);
+
+		void repeat(IterT, IterT);
 
 		/*
 		 *	Turtle Actions and Queries
@@ -59,8 +61,13 @@ namespace logo
 		void string(IterT, IterT);
 		void number(float);
 
-		// Arithmetic
+		// Arithmetic (actions_arit.cpp)
 		void sqr(IterT, IterT);
+		void sum(IterT, IterT);
+		void dif(IterT, IterT);
+		void product(IterT, IterT);
+		void divide(IterT, IterT);
+		void negate(IterT, IterT);
 		
 		void forward(IterT, IterT);
 		void back(IterT, IterT);
