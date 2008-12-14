@@ -1,3 +1,30 @@
 #summary qsLogo documentation.
 
 = qsLogo 1.0 =
+
+== Supported Primitives ==
+
+=== Math ===
+
+{{{
+sum x y
+dif x y
+div x y
+prod x y
+
+neg x ; Negate
+sqr x ; Square
+}}}
+
+=== Variables ===
+
+{{{
+make variable value
+thing variable
+}}}
+
+=== Control Statements ===
+
+{{{
+repeat times statements
+}}}
