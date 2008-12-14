@@ -30,6 +30,7 @@ namespace logo {
 
 		void to(IterT start, IterT end)
 		{
+			LOGO_DEBUG(QString(start, end-start)); 
 			QString name = stack.pop().toString();
 			functions[name] = QString(start, end-start);
 		}
@@ -64,18 +65,15 @@ namespace logo {
 
 		void call(IterT first, IterT last)
 		{
+			QString& hello = functions[QString(first, last-first)];
+			win->interpreter->parse(hello.constBegin(), hello.constEnd());
+		}
+
+		void error(IterT first, IterT last)
+		{
 			QString x(first, last-first);
-			// See if it is a function
-			if (functions.contains(x))
-			{
-				QString& hello = functions[x];
-				win->interpreter->parse(hello.constBegin(), hello.constEnd());
-			} 
-			else
-			{
-				x.prepend("I don't know how to ");
-				win->statusBar()->showMessage(x);
-			}
+			x.prepend("I don't know how to ");
+			win->statusBar()->showMessage(x);
 		}
 
 	}
