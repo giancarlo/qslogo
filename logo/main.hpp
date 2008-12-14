@@ -23,6 +23,7 @@
 #define LOGO_MAIN_HPP
 
 #include <QString>
+#include "debug.hpp"
 
 namespace logo
 {

@@ -27,25 +27,46 @@
 
 namespace logo
 {
-	/*
-	struct repeat_closure : LOGO_SPIRIT_NS::closure<repeat_closure, qreal>
+	struct function_functor
 	{
-		member1 val;
-	};
-	*/
+		typedef LOGO_SPIRIT_NS::nil_t result_t;
 
+		template <typename ScannerT>
+		std::ptrdiff_t
+		operator() (ScannerT const& scan, result_t& result) const
+		{
+			if (scan.at_end()) return -1;
+
+			logo::action::IterT start = scan.first;
+			std::ptrdiff_t len = 0;
+
+			while (!scan.at_end() && LOGO_SPIRIT_NS::impl::isalnum_(*scan))
+			{
+				++len;
+				++scan;
+			}
+			
+			// See if it is a function
+			return logo::action::functions.contains(QString(start, len)) ? len : -1;
+		}
+	};
+
+	LOGO_SPIRIT_NS::functor_parser<function_functor> function_p;
+	
 	struct grammar : public LOGO_SPIRIT_NS::grammar<grammar>
     {
 
-		/*
-		 *	Initialize the stupid scene
-		 */		 
 		template <typename ScannerT>
         struct definition
         {
+			typedef LOGO_SPIRIT_NS::scanner_list<
+				ScannerT,
+				typename LOGO_SPIRIT_NS::no_actions_scanner<ScannerT>::type
+			> ScannerT2;
 
-			LOGO_SPIRIT_NS::rule<ScannerT>  
-				expression, statement, identifier, statements, function,
+			LOGO_SPIRIT_NS::rule<ScannerT2>  
+				expression, statement, identifier, function,
+				statements,
 				// Addons
 				get,
 				// Turtle Position
@@ -113,7 +134,7 @@ namespace logo
 				get			=	str_p("get") >> +space_p >> 
 									str_p("turtle") >> +space_p >> 
 										(
-										str_p("x")[&logo::action::xcor] |
+											str_p("x")[&logo::action::xcor] |
 										str_p("y")[&logo::action::ycor]
 										)
 								>> eol;
@@ -130,7 +151,7 @@ namespace logo
 				xcor		=	str_p("xcor")[&logo::action::xcor] >> eol;
 				ycor		=	str_p("ycor")[&logo::action::ycor] >> eol;
 
-				function	= xcor | ycor | thing | other;
+				function	= xcor | ycor | thing | function_p[&logo::action::call];
 
 				/* Screen Commands */
 
@@ -142,30 +163,30 @@ namespace logo
 
 				end			= str_p("end") >> eol;
 				to			= str_p("to") >> identifier[&logo::action::string]
-									>> (no_actions_d[*statement])[&logo::action::to]
+									>> (no_actions_d[statements])[&logo::action::to]
 							>> end;
-
 
 				comment = ch_p(';') >> (*graph_p - eol) >> eol;
 
-				other   = identifier[&logo::action::call];
+				other   = (identifier - end)[&logo::action::error];
 
 				print		= (str_p("print") >> expression)[&logo::action::print] >> eol;
 				exit		= str_p("bye")[&logo::action::exit] >> eol;
 				statement	=	(
-								back | forward | right | left | home | circle |
-								xcor | ycor | pen |
-								print | cs | get | 
+								back | forward | right | left | home |
+								circle |
+								pen | get |
+								print | cs | 
 								repeat |
-								make | thing |
-								exit | comment |
+								make | to |
+								exit | comment | function |
 								other
 								);
 
 				statements = *statement;
 			}
            
-			LOGO_SPIRIT_NS::rule<ScannerT> const& start() const 
+			LOGO_SPIRIT_NS::rule<ScannerT2> const& start() const 
 			{ 
 				return statements; 
 			}

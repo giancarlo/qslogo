@@ -71,7 +71,9 @@ namespace logo
 		QTabWidget		*tabs;
 		QTextEdit		*editor;
 		QListWidget		*log;
-		
+#ifdef LOGO_DEBUG_ENABLE
+		QListWidget		*debug;
+#endif
 		/*
 		 *	Graphic Objects
 		 */

@@ -24,13 +24,17 @@
 
 #include <boost/version.hpp>
 
+#define BOOST_SPIRIT_RULE_SCANNERTYPE_LIMIT 2
+
 #if BOOST_VERSION >= 103800
 #  include <boost/spirit/home/classic/core.hpp>
 #  include <boost/spirit/home/classic/utility/confix.hpp>
+#  include <boost/spirit/home/classic/utility/functor_parser.hpp>
 #  define LOGO_SPIRIT_NS BOOST_SPIRIT_CLASSIC_NS
 #else
 #  include <boost/spirit/core.hpp>
 #  include <boost/spirit/utility/confix.hpp>
+#  include <boost/spirit/utility/functor_parser.hpp>
 #  define BOOST_SPIRIT_CLASSIC_NAMESPACE_BEGIN
 #  define BOOST_SPIRIT_CLASSIC_NAMESPACE_END
 #  define LOGO_SPIRIT_NS boost::spirit

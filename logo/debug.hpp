@@ -22,11 +22,10 @@
 #ifndef LOGO_DEBUG_HPP
 #define LOGO_DEBUG_HPP
 
-#ifdef LOGO_DEBUG
-#	include <QtGui/QApplication>
-#	define LOGO_LOG(msg) logo::win->log->addItem(msg)
+#ifdef LOGO_DEBUG_ENABLE
+#	define LOGO_DEBUG(msg) logo::win->debug->addItem(msg)
 #else
-#	define LOGO_LOG(msg)
+#	define LOGO_DEBUG(msg)
 #endif
 
 #endif // LOGO_DEBUG_HPP

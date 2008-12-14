@@ -87,6 +87,12 @@ logo::window::window(QWidget *parent) : QMainWindow(parent)
 	// Set Log
 	log = new QListWidget();
 	tabs->addTab(log, "Log");
+
+#ifdef LOGO_DEBUG_ENABLE
+	// Set Debug
+	debug = new QListWidget();
+	tabs->addTab(debug, "Debug");
+#endif
 	
 	// Set the Dock Widgets
 	dockCommand = new QDockWidget("Command", this);
@@ -115,6 +121,7 @@ logo::window::window(QWidget *parent) : QMainWindow(parent)
 	
 	connect(command, SIGNAL(returnPressed()), this, SLOT(onReturnPressed()));
 
+	LOGO_DEBUG("Window Initialized.");
 }
 
 /*
