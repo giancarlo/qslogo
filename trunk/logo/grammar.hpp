@@ -88,6 +88,8 @@ namespace logo
 				string, number,
 				// Other
 				eol, invalid, end, comment,
+				// Editor
+				edit, save,
 				// Functions
 				to, other
 			;
@@ -155,20 +157,24 @@ namespace logo
 
 				/* Screen Commands */
 
-				cs			=	(
-									str_p("cs") | 
-									(str_p("clear") >> str_p("screen"))
-								) [ &logo::action::clear_screen ]
-								>> eol;
+				cs =	(
+					str_p("cs") | 
+					(str_p("clear") >> str_p("screen"))
+					) [ &logo::action::clear_screen ]
+					>> eol;
 
-				end			= str_p("end") >> eol;
-				to			= str_p("to") >> identifier[&logo::action::string]
-									>> (no_actions_d[statements])[&logo::action::to]
-							>> end;
+				end = str_p("end") >> eol;
+				to  = str_p("to") >> identifier[&logo::action::string]
+					>> (no_actions_d[statements])[&logo::action::to]
+					>> end;
 
 				comment = ch_p(';') >> (*graph_p - eol) >> eol;
 
 				other   = (identifier - end)[&logo::action::error];
+
+				// Editor
+				edit = (str_p("edit") >> (*string))[&logo::action::edit];
+				save = (str_p("save") >> string)[&logo::action::save];
 
 				print		= (str_p("print") >> expression)[&logo::action::print] >> eol;
 				exit		= str_p("bye")[&logo::action::exit] >> eol;
@@ -180,8 +186,9 @@ namespace logo
 								repeat |
 								make | to |
 								exit | comment | function |
+								edit | save |
 								other
-								);
+							);
 
 				statements = *statement;
 			}
