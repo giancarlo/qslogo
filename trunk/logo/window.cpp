@@ -43,8 +43,11 @@ namespace logo {
 void logo::window::onReturnPressed() {
 	
 	log->addItem(command->text());
+	QString cmds = editor->toPlainText();
+	cmds += "\n";
+	cmds += command->text();
 
-	this->interpreter->parse(command->text().constBegin(), command->text().constEnd());
+	this->interpreter->parse(cmds.constBegin(), cmds.constEnd());
 	
 	command->clear();
 }
