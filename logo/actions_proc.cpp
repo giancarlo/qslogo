@@ -63,6 +63,7 @@ namespace logo {
 			}
 		}
 
+		/** NOTE: Check if the function exists is done in the parser. No Need to do it here */
 		void call(IterT first, IterT last)
 		{
 			QString& hello = functions[QString(first, last-first)];

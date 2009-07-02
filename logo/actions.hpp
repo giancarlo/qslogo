@@ -81,6 +81,9 @@ namespace logo
 		void to(IterT, IterT);
 		void call(IterT, IterT);
 		void error(IterT, IterT);
+
+		void edit(IterT, IterT);
+		void save(IterT, IterT);
 	
 	}
 

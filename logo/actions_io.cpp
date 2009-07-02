@@ -11,6 +11,9 @@
 #include "window.hpp"
 #include "turtle.hpp"
 
+#include <QFile>
+#include <QTextStream>
+
 namespace logo 
 {
 	namespace action
@@ -46,6 +49,36 @@ namespace logo
 			text->setPos(logo::win->turtle->pos());
 			logo::win->turtle->moveBy(text->textWidth(), 0);
 			
+		}
+		
+		void edit(IterT, IterT)
+		{
+			if (!stack.empty())
+			{
+				QApplication::setOverrideCursor(Qt::WaitCursor);
+
+				QString filename = stack.pop().toString();
+				QFile file(filename);
+				file.open(QIODevice::ReadOnly);
+
+				QTextStream in(&file);
+
+				logo::win->editor->setPlainText(in.readAll());
+				file.close();
+
+				QApplication::restoreOverrideCursor();
+
+			}
+			logo::win->tabs->setCurrentIndex(1);
+		}
+
+		void save(IterT, IterT)
+		{
+			QString filename = stack.pop().toString();	
+			QFile file(filename);
+			file.open(QIODevice::WriteOnly);
+			file.write(logo::win->editor->toPlainText().toUtf8());
+			file.close();
 		}
 
 		void clear_screen(IterT, IterT)

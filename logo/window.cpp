@@ -36,12 +36,13 @@ namespace logo {
 }
 
 /*
- *	Here we just humbly parse the command line and wait. Then we check for errors which we hope
+ *	Here we parse the command line and wait. Then we check for errors which we hope
  *	are returned to us by an exception. Now, after this we should log somehow the command and 
  *	probably also clear the text box.
  */
 void logo::window::onReturnPressed() {
 	
+	win->statusBar()->showMessage("Ready.");
 	log->addItem(command->text());
 	QString cmds = editor->toPlainText();
 	cmds += "\n";
@@ -53,7 +54,7 @@ void logo::window::onReturnPressed() {
 }
 
 /*
- *	The Famous constructor will create the window and GUI. We are using pointers to create the 
+ *	The constructor will create the window and GUI. We are using pointers to create the 
  *	objects at runtime. I hope this works well. The objects are guaranteed to be destructed.
  */
 logo::window::window(QWidget *parent) : QMainWindow(parent)
