@@ -39,6 +39,16 @@ get turtle x
 get turtle y
 cs	# clear screen
 print <string | number>
-exit
+bye # Exits
+circle <radius> # Draws a circle
+sum x, y
+diff x, y
+prod x, y
+div x,y
+neg
+pen [up|down]
+home
+print expression
+; # Comments
 
 	

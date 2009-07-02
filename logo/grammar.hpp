@@ -106,13 +106,13 @@ namespace logo
 				identifier  = lexeme_d[+alnum_p];
 
 				/* actions_arit.cpp */
-				sum			= (str_p("sum") >> expression >> eol >> expression >> eol)[&logo::action::sum];
+				sum             = (str_p("sum") >> expression >> eol >> expression >> eol)[&logo::action::sum];
 				difference	= (str_p("dif") >> expression >> eol >> expression >> eol)[&logo::action::dif];
 				product		= (str_p("prod")>> expression >> eol >> expression >> eol)[&logo::action::product];
 				divide		= (str_p("div") >> expression >> eol >> expression >> eol)[&logo::action::divide];
 
 				negate		= (str_p("neg") >> expression >> eol)[&logo::action::negate];
-				sqr			= (str_p("sqr") >> expression >> eol)[&logo::action::sqr];
+				sqr             = (str_p("sqr") >> expression >> eol)[&logo::action::sqr];
 				
 				term		= sum | difference | product | divide | negate | sqr | number;
 				expression	= string | term | function;
@@ -132,11 +132,11 @@ namespace logo
 				left		= ((str_p("left")  | str_p("lt")) >> expression >> eol)[&logo::action::left];
 
 				get			=	str_p("get") >> +space_p >> 
-									str_p("turtle") >> +space_p >> 
-										(
-											str_p("x")[&logo::action::xcor] |
-										str_p("y")[&logo::action::ycor]
-										)
+								str_p("turtle") >> +space_p >> 
+								(
+									str_p("x")[&logo::action::xcor] |
+									str_p("y")[&logo::action::ycor]
+								)
 								>> eol;
 
 				pen			= str_p("pen") >>
