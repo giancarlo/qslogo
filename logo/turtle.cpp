@@ -73,7 +73,7 @@ void logo::turtle::rotate(qreal degree)
 
 void logo::turtle::moveBy(qreal dx, qreal dy)
 {
-	pixmap->moveBy(dx, dy);
+	pixmap->translate(dx, dy);
 }
 
 void logo::turtle::circle(qreal radius)

@@ -22,3 +22,4 @@ INCLUDEPATH += $$BOOST
 
 CONFIG(release): DESTDIR = bin/release
 CONFIG(debug):   DESTDIR = bin/debug
+CONFIG(debug):   DEFINES = LOGO_DEBUG_ENABLE

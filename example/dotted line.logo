@@ -1,9 +1,9 @@
-FD 20    ;(drawing a line and moving)
-PENUP    ;(now we've lifted the pen so it won't draw anything even if we do move)
-FD 20    ;(not drawing but moving)
-PENDOWN  ;(now we've lowered the pen so it draws a line wherever the turtle moves)
-FD 20    ;(drawing a line and moving)
-PENUP
-FD 20    ;(etc...)
-PENDOWN
-FD 20
+fd 20    ;(drawing a line and moving)
+pen up    ;(now we've lifted the pen so it won't draw anything even if we do move)
+fd 20    ;(not drawing but moving)
+pen down  ;(now we've lowered the pen so it draws a line wherever the turtle moves)
+fd 20    ;(drawing a line and moving)
+pen up
+fd 20    ;(etc...)
+pen down
+fd 20

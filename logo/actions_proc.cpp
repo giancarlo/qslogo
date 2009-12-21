@@ -28,53 +28,95 @@ namespace logo {
 
 	namespace action {
 
+		QString scope;
+		QStack<QString> call_stack;
+
+		void method_name(IterT start, IterT end)
+		{
+			scope = QString(start, end-start);
+			functions[scope].args.clear();
+		}
+
+		void arg(IterT s, IterT e)
+		{
+			functions[scope].args.push_front(QString(s, e-s));
+		}
+
 		void to(IterT start, IterT end)
 		{
-			LOGO_DEBUG(QString(start, end-start)); 
-			QString name = stack.pop().toString();
-			functions[name] = QString(start, end-start);
+			functions[scope].code = QString(start, end-start);
+			LOGO_DEBUG("Function added: \"" + scope + '(' + QString::number(functions[scope].args.count()) + ")\"");
+			LOGO_DEBUG(functions[scope].code);
 		}
 
 		void make(IterT, IterT)
 		{
 			QVariant value = stack.pop();
 			QString  name  = stack.pop().toString();
-			variables[name] = value;
+			variables[scope + name] = value;
 		}
 
 		void thing(IterT, IterT)
 		{
 			QString name = stack.pop().toString();
-			stack.push(variables[name]);
+			stack.push(variables[scope + name]);
+		}
+
+		void var(IterT a, IterT b)
+		{
+			QString name(a, b-a);
+			stack.push(variables[scope + name]);
+		}
+
+		void _if(IterT, IterT b)
+		{
+			QString code = stack.pop().toString();
+			bool condition = stack.pop().toBool();
+			if (condition)
+				win->interpreter->parse(code.constBegin(), code.constEnd());
 		}
 
 		/*
-		 *  Ok So the trick here is to reevaluate the string inside IterT and IterT.
-		 *  It is always executed once.
-		 *
+		 *  
 		 *  Problems: This assumes the stack contains the repeat value. Which might not be right.
-		 *  TODO Needs to be fixed. 
 		 */
 		void repeat(IterT start, IterT end)
 		{
-			for (int i = stack.pop().toInt(); i > 1; --i)
+			QString block = stack.pop().toString();
+			for (int i = stack.pop().toInt(); i > 0; --i)
 			{
-				win->interpreter->parse(start, end);
+				win->interpreter->parse(block);
 			}
 		}
 
 		/** NOTE: Check if the function exists is done in the parser. No Need to do it here */
 		void call(IterT first, IterT last)
 		{
-			QString& hello = functions[QString(first, last-first)];
-			win->interpreter->parse(hello.constBegin(), hello.constEnd());
+			scope = QString(first, last-first);
+		}
+
+		void do_call(IterT, IterT)
+		{
+			logo::function& f = functions[scope];
+
+			for (QVector<QString>::const_iterator i = f.args.begin();
+				i != f.args.end(); ++i)
+			{
+				variables[scope + *i] = stack.pop();
+			}
+			call_stack.push(scope);
+			win->interpreter->parse(functions[scope].code);
+			scope = call_stack.pop();
 		}
 
 		void error(IterT first, IterT last)
 		{
 			QString x(first, last-first);
 			x.prepend("I don't know how to ");
-			win->statusBar()->showMessage(x);
+#ifdef LOGO_DEBUG_ENABLE
+			LOGO_DEBUG(x);
+#endif
+			throw x;
 		}
 
 	}

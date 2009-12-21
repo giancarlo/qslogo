@@ -28,7 +28,9 @@ namespace logo
 
 		void dif(IterT, IterT)
 		{
-			stack.push(stack.pop().toDouble() - stack.pop().toDouble());
+			double y = stack.pop().toDouble();
+			double x = stack.pop().toDouble();
+			stack.push(x - y);
 		}
 
 		void product(IterT, IterT)
@@ -38,12 +40,41 @@ namespace logo
 
 		void divide(IterT, IterT)
 		{
-			stack.push(stack.pop().toDouble() / stack.pop().toDouble());
+			double y = stack.pop().toDouble();
+			double x = stack.pop().toDouble();
+			stack.push(x / y);
 		}
 
 		void negate(IterT, IterT)
 		{
 			stack.push(- stack.pop().toDouble());
+		}
+
+		void mod(IterT, IterT)
+		{
+			int y = stack.pop().toDouble();
+			int x = stack.pop().toDouble();
+			stack.push(x % y);
+		}
+
+		void gt(IterT, IterT)
+		{
+			stack.push(stack.pop().toDouble() < stack.pop().toDouble());
+		}
+
+		void lt(IterT, IterT)
+		{
+			stack.push(stack.pop().toDouble() > stack.pop().toDouble());
+		}
+
+		void gte(IterT, IterT)
+		{
+			stack.push(stack.pop().toDouble() <= stack.pop().toDouble());
+		}
+
+		void lte(IterT, IterT)
+		{
+			stack.push(stack.pop().toDouble() >= stack.pop().toDouble());
 		}
 	}
 }

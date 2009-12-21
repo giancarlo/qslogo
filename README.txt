@@ -5,19 +5,15 @@
 
 I. TO BUILD
 
-I.1 Modify logo.pro
-
-Before running qmake you need to set the BOOST variable with the location of your BOOST include files.
-
-I.2 Run Qmake
+I.1 Run Qmake
 
 qmake BOOST=/location/of/boost/dir
 
-I.3 Run make or nmake or other
+I.2 Run make or nmake or other
 
 make
 
-I.4 Enjoy
+I.3 Enjoy
 
 II. Installation
 

@@ -24,10 +24,6 @@
 
 #include <QtGui/QApplication>
 #include <QtGui/QMainWindow>
-
-/*
- *	OK. Lets create the QGraphicScene to Show the movement of the turtle.
- */
 #include <QtGui/QGraphicsScene>
 #include <QtGui/QGraphicsView>
 #include <QtGui/QDockWidget>
@@ -37,6 +33,7 @@
 #include <QtGui/QTabWidget>
 #include <QtGui/QStatusBar>
 #include <QtGui/QGraphicsPixmapItem>
+#include <QSyntaxHighlighter>
 
 #include "interpreter.hpp"
 
@@ -71,6 +68,8 @@ namespace logo
 		QTabWidget		*tabs;
 		QTextEdit		*editor;
 		QListWidget		*log;
+		QSyntaxHighlighter      *syntax;
+
 #ifdef LOGO_DEBUG_ENABLE
 		QListWidget		*debug;
 #endif
