@@ -50,6 +50,7 @@ namespace logo
 		 *	Throws an exception only if an error occurs.
 		 */
 		void parse(logo::action::IterT first, logo::action::IterT last);
+		void parse(QString code);
 
 	};
 }

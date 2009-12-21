@@ -88,6 +88,9 @@ logo::window::window(QWidget *parent) : QMainWindow(parent)
 	editor->setCurrentFont(QFont("Courier New", 12));
 	tabs->addTab(editor, "Editor");
 
+	// Set Highlighter
+	// syntax = new QSyntaxHighlighter(editor);
+
 	// Set Log
 	log = new QListWidget();
 	tabs->addTab(log, "Log");

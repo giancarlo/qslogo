@@ -22,20 +22,31 @@
 #include "main.hpp"
 #include "interpreter.hpp"
 #include "grammar.hpp"
+#include "window.hpp"
 
 // Ok now here there is our stack declared at actions.hpp as extern of course
 namespace logo { namespace action {
-	QStack<QVariant>			stack;
+	QStack<QVariant>		stack;
 	QHash<QString, QVariant>	variables;
-	QHash<QString, QString>		functions;
+	QHash<QString, logo::function>	functions;
 }}
 
 void logo::interpreter::parse(logo::action::IterT a, logo::action::IterT b)
 {
 	logo::grammar g;
+	
+	try {
+		LOGO_SPIRIT_NS::parse(a, b, g, LOGO_SPIRIT_NS::space_p);
+	} catch(QString& e)
+	{
+		win->statusBar()->showMessage(e);
+	}
 
-	LOGO_SPIRIT_NS::parse(a, b, g, LOGO_SPIRIT_NS::space_p);
+	logo::action::stack.clear();
+}
 
-	// if (!stack.isEmpty || !strings.isEmpty)
+void logo::interpreter::parse(QString code)
+{
+	parse(code.constBegin(), code.constEnd());
 }
 

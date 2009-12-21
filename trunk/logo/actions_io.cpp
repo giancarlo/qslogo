@@ -31,24 +31,9 @@ namespace logo
 
 		void print(IterT, IterT)
 		{
-			// If there is an element in the number stack print that.
-			// TODO Fix this
-			/*if ( stack.isEmpty() )
-			{
-				// Print all the strings in strings stack. Make sure the turtle moves when printing.
-				for (int i = 0; i < strings.size(); i++)
-				{
-					QGraphicsTextItem* text = logo::win->scene->addText( strings.last() );
-					strings.pop_back();
-
-					logo::win->turtle->moveBy(text->boundingRect().width(), text->boundingRect().height());
-				}
-			} else
-			{*/
 			QGraphicsTextItem* text = logo::win->scene->addText( stack.last().toString() );
 			text->setPos(logo::win->turtle->pos());
-			logo::win->turtle->moveBy(text->textWidth(), 0);
-			
+			//logo::win->turtle->moveBy(text->boundingRect().width(), 0);			
 		}
 		
 		void edit(IterT, IterT)

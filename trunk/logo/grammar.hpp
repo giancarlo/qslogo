@@ -47,6 +47,7 @@ namespace logo
 			}
 			
 			// See if it is a function
+			LOGO_DEBUG("function_p: \"" + QString(start, len) + '"'); 
 			return logo::action::functions.contains(QString(start, len)) ? len : -1;
 		}
 	};
@@ -59,144 +60,170 @@ namespace logo
 		template <typename ScannerT>
         struct definition
         {
-			typedef LOGO_SPIRIT_NS::scanner_list<
-				ScannerT,
-				typename LOGO_SPIRIT_NS::no_actions_scanner<ScannerT>::type
-			> ScannerT2;
+		typedef LOGO_SPIRIT_NS::scanner_list<
+			ScannerT,
+			typename LOGO_SPIRIT_NS::no_actions_scanner<ScannerT>::type
+		> ScannerT2;
 
-			LOGO_SPIRIT_NS::rule<ScannerT2>  
-				expression, statement, identifier, function,
-				statements,
-				// Addons
-				get,
-				// Turtle Position
-				xcor, ycor,
-				// turtle stuff
-				pen,
-				// Algebra!
-				sum, difference, negate, product, divide, sqrt, power, sqr, term,
-				// Data
-				make, list, thing,
-				// Primitives
-				forward, left, right, back,
-				circle,
-				cs, 
-				print, exit, home,
-				// Control Structures
-				repeat,
-				// Types
-				string, number,
-				// Other
-				eol, invalid, end, comment,
-				// Editor
-				edit, save,
-				// Functions
-				to, other
+		LOGO_SPIRIT_NS::rule<ScannerT2>  
+			expression, statement, identifier, function,
+			statements, block,
+			// Addons
+			get, set,
+			// Turtle Position
+			xcor, ycor,
+			// turtle stuff
+			pen,
+			// Algebra!
+			sum, difference, negate, product, divide, sqrt, power, sqr, term, mod,
+			comp,
+			// Data
+			make, list, thing, arg,
+			// Primitives
+			forward, left, right, back,
+			circle,
+			cs, 
+			print, exit, home,
+			// Control Structures
+			repeat,
+			// Types
+			string, number,
+			// Other
+			eol, invalid, end, comment,
+			// Editor
+			edit, save,
+			// Functions
+			to, other, var,
+			// Logic
+			if_stmt
+		;
+
+		definition(grammar const& /* self */)  
+		{
+			using namespace LOGO_SPIRIT_NS;
+			using namespace logo::action;
+
+			eol = (*eol_p | +space_p);
+
+			number = real_p[&logo::action::number];
+			string = confix_p('[', (*graph_p)[&logo::action::string], ']') |
+			         ('"' >> identifier[&logo::action::string])
+			         ;
+
+			identifier  = lexeme_d[+alnum_p];
+
+			/* actions_arit.cpp */
+			sum        = (str_p("sum") >> expression >> eol >> expression >> eol)[&logo::action::sum];
+			difference = (str_p("dif") >> expression >> eol >> expression >> eol)[&logo::action::dif];
+			product    = (str_p("prod")>> expression >> eol >> expression >> eol)[&logo::action::product];
+			divide     = (str_p("div") >> expression >> eol >> expression >> eol)[&logo::action::divide];
+			mod        = ("mod" >> expression >> expression)[&logo::action::mod];
+
+			negate     = (str_p("neg") >> expression >> eol)[&logo::action::negate];
+			sqr        = (str_p("sqr") >> expression >> eol)[&logo::action::sqr];
+			
+			term       = sum | difference | product | divide | negate | sqr | mod | number;
+			comp       = term >> *(
+				             ('>' >> term)[&gt] |
+				             ('<' >> term)[&lt] |
+					     (">=" >> term)[&gte] |
+					     ("<=" >> term)[&lte]
+			             );
+			             
+			var        = (':' >> identifier)[&logo::action::var];
+
+			expression = string | comp | var | function;
+			
+			/* Control Statements */
+			repeat = "repeat" >> expression >> block[&logo::action::repeat];
+			make   = ("make" >> string >> expression)[&logo::action::make];
+			thing  = ("thing" >> string >> eol)[&logo::action::thing] |
+			               (':' >> identifier[&logo::action::string] >> eol)[&logo::action::thing]
+			               ;
+
+			if_stmt  = ("if" >> expression >> block)[&_if];
+			block    = '[' >> (no_actions_d[statements])[&logo::action::string] >> ']';
+
+			/* TURTLE Commands */
+
+			forward = ((str_p("forward") | str_p("fd")) >>  expression >> eol)[&logo::action::forward];
+			back    = ((str_p("back") | str_p("bk")) >> expression >> eol)[&logo::action::back];
+			right   = ((str_p("right") | str_p("rt")) >> expression >> eol)[&logo::action::right];
+			left    = ((str_p("left")  | str_p("lt")) >> expression >> eol)[&logo::action::left];
+
+			get	= str_p("get") >> +space_p >> 
+				  str_p("turtle") >> +space_p >> 
+				  (
+					str_p("x")[&logo::action::xcor] |
+					str_p("y")[&logo::action::ycor]
+				  )
+				  >> eol;
+
+			set = ("setx" >> expression)[&setx] |
+			      ("sety" >> expression)[&sety]
 			;
 
-			definition(grammar const& /* self */)  
-			{
-				using namespace LOGO_SPIRIT_NS;
+			pen		= str_p("pen") >>
+					  (str_p("up")[&logo::action::penup] |
+					  str_p("down")[&logo::action::pendown])
+					  >> eol;
 
-				eol			=	(*eol_p | +space_p);
+			home		= (str_p("home") >> eol)[&logo::action::home];
+			circle		= (str_p("circle") >> expression >> eol)[&logo::action::circle];
 
-				number		= real_p[&logo::action::number];
-				string		= confix_p('[', (*graph_p)[&logo::action::string], ']') |
-							  (ch_p('"') >> identifier[&logo::action::string])
-							  ;
+			/* FUNCTIONS */
+			xcor		= str_p("xcor")[&logo::action::xcor] >> eol;
+			ycor		= str_p("ycor")[&logo::action::ycor] >> eol;
 
-				identifier  = lexeme_d[+alnum_p];
+			function	= xcor | ycor | thing |
+				          (lexeme_d[function_p[&logo::action::call]] >> *expression)[&do_call];
 
-				/* actions_arit.cpp */
-				sum             = (str_p("sum") >> expression >> eol >> expression >> eol)[&logo::action::sum];
-				difference	= (str_p("dif") >> expression >> eol >> expression >> eol)[&logo::action::dif];
-				product		= (str_p("prod")>> expression >> eol >> expression >> eol)[&logo::action::product];
-				divide		= (str_p("div") >> expression >> eol >> expression >> eol)[&logo::action::divide];
+			/* Screen Commands */
 
-				negate		= (str_p("neg") >> expression >> eol)[&logo::action::negate];
-				sqr             = (str_p("sqr") >> expression >> eol)[&logo::action::sqr];
-				
-				term		= sum | difference | product | divide | negate | sqr | number;
-				expression	= string | term | function;
-				
-				/* Control Statements */
-				repeat		= str_p("repeat") >> expression >> (statements)[&logo::action::repeat];
-				make		= (str_p("make") >> string >> expression >> eol)[&logo::action::make];
-				thing		= (str_p("thing") >> string >> eol)[&logo::action::thing] |
-							  (str_p(":") >> identifier[&logo::action::string] >> eol)[&logo::action::thing]
-							  ;
+			cs = (str_p("cs") | 
+			     (str_p("clear") >> "screen") |
+			      "reset"
+			     )[ &logo::action::clear_screen ]
+			;
 
-				/* TURTLE Commands */
+			end = str_p("end") >> eol;
 
-				forward		= ((str_p("forward") | str_p("fd")) >>  expression >> eol)[&logo::action::forward];
-				back		= ((str_p("back") | str_p("bk")) >> expression >> eol)[&logo::action::back];
-				right		= ((str_p("right") | str_p("rt")) >> expression >> eol)[&logo::action::right];
-				left		= ((str_p("left")  | str_p("lt")) >> expression >> eol)[&logo::action::left];
+			arg = (ch_p(':') >> identifier)[&logo::action::arg];
 
-				get			=	str_p("get") >> +space_p >> 
-								str_p("turtle") >> +space_p >> 
-								(
-									str_p("x")[&logo::action::xcor] |
-									str_p("y")[&logo::action::ycor]
-								)
-								>> eol;
+			to  = str_p("to") >> identifier[&logo::action::method_name] >> (*arg)
+				>> (no_actions_d[statements])[&logo::action::to]
+				>> end
+			;
 
-				pen			= str_p("pen") >>
-										(str_p("up")[&logo::action::penup] |
-										str_p("down")[&logo::action::pendown])
-									>> eol;
+			comment = comment_p(';');
 
-				home		= (str_p("home") >> eol)[&logo::action::home];
-				circle		= (str_p("circle") >> expression >> eol)[&logo::action::circle];
+			other   = (identifier-end)[&logo::action::error];
 
-				/* FUNCTIONS */
-				xcor		=	str_p("xcor")[&logo::action::xcor] >> eol;
-				ycor		=	str_p("ycor")[&logo::action::ycor] >> eol;
+			// Editor
+			edit = (str_p("edit") >> (*string))[&logo::action::edit];
+			save = (str_p("save") >> string)[&logo::action::save];
 
-				function	= xcor | ycor | thing | function_p[&logo::action::call];
+			print		= (str_p("print") >> expression)[&logo::action::print] >> eol;
+			exit		= str_p("bye")[&logo::action::exit] >> eol;
+			statement = (
+				back | forward | right | left | home |
+				circle |
+				pen | get | set |
+				print | cs | 
+				repeat |
+				make | to | if_stmt |
+				exit | comment | 
+				edit | save | function |
+				other
+			);
 
-				/* Screen Commands */
-
-				cs =	(
-					str_p("cs") | 
-					(str_p("clear") >> str_p("screen"))
-					) [ &logo::action::clear_screen ]
-					>> eol;
-
-				end = str_p("end") >> eol;
-				to  = str_p("to") >> identifier[&logo::action::string]
-					>> (no_actions_d[statements])[&logo::action::to]
-					>> end;
-
-				comment = ch_p(';') >> (*graph_p - eol) >> eol;
-
-				other   = (identifier - end)[&logo::action::error];
-
-				// Editor
-				edit = (str_p("edit") >> (*string))[&logo::action::edit];
-				save = (str_p("save") >> string)[&logo::action::save];
-
-				print		= (str_p("print") >> expression)[&logo::action::print] >> eol;
-				exit		= str_p("bye")[&logo::action::exit] >> eol;
-				statement	=	(
-								back | forward | right | left | home |
-								circle |
-								pen | get |
-								print | cs | 
-								repeat |
-								make | to |
-								exit | comment | function |
-								edit | save |
-								other
-							);
-
-				statements = *statement;
-			}
-           
-			LOGO_SPIRIT_NS::rule<ScannerT2> const& start() const 
-			{ 
-				return statements; 
-			}
+			statements = *statement;
+		}
+   
+		LOGO_SPIRIT_NS::rule<ScannerT2> const& start() const 
+		{ 
+			return statements; 
+		}
 
         };
     };

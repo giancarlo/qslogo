@@ -1,6 +1,7 @@
  
-TO CHAIR  :thesize
-REPEAT 4 [FD :thesize  RT 90] FD :thesize FD :thesize
-END
+to chair  :thesize
+	repeat 4 [fd :thesize rt 90] 
+	fd prod :thesize 2
+end
 
-CS REPEAT 9 [CHAIR 50 RT 20 CHAIR 100 WAIT 50 RT 20]
+repeat 9 [ chair 5 rt 20 chair 10 rt 20 ]

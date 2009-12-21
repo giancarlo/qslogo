@@ -28,14 +28,22 @@
 
 namespace logo
 {
+	struct function {
+		QString code;
+		QVector<QString> args;
+	};
+
 	namespace action {
 
 		/**
 		 *	qreal Stack. I could use QStack but it is the same thing, so i refuse to.
-		 */
-		extern QStack<QVariant>				stack;
-		extern QHash<QString, QVariant>		variables;
-		extern QHash<QString, QString>		functions;
+		 */		
+
+		extern QStack<QVariant>         stack;
+		extern QHash<QString, QVariant> variables;
+		extern QHash<QString, logo::function>  functions;
+		extern QStack<QString> call_stack;
+		extern QString scope;
 
 		///	Print will print text on screen. 
 		void print(IterT, IterT);
@@ -59,6 +67,8 @@ namespace logo
 		void penup(IterT, IterT);
 		void pendown(IterT, IterT);
 		void home(IterT, IterT);
+		void setx(IterT, IterT);
+		void sety(IterT, IterT);
 
 		void circle(IterT, IterT);
 
@@ -72,6 +82,11 @@ namespace logo
 		void product(IterT, IterT);
 		void divide(IterT, IterT);
 		void negate(IterT, IterT);
+		void gt(IterT, IterT);
+		void gte(IterT, IterT);
+		void lt(IterT, IterT);
+		void lte(IterT, IterT);
+		void mod(IterT, IterT);
 		
 		void forward(IterT, IterT);
 		void back(IterT, IterT);
@@ -81,6 +96,12 @@ namespace logo
 		void to(IterT, IterT);
 		void call(IterT, IterT);
 		void error(IterT, IterT);
+		void var(IterT, IterT);
+		void arg(IterT, IterT);
+		void method_name(IterT, IterT);
+		void do_call(IterT, IterT);
+
+		void _if(IterT, IterT);
 
 		void edit(IterT, IterT);
 		void save(IterT, IterT);
