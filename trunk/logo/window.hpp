@@ -51,6 +51,7 @@ namespace logo
 	protected:
 
 		void resizeEvent ( QResizeEvent * event );
+		void onLogDoubleClick(const QModelIndex& index);
 
 	public slots:
 		void onReturnPressed();
