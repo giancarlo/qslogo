@@ -1,7 +1,7 @@
-TO ERASECHAIR
-PE
-BK 200 REPEAT 4 [FD 100 RT 90]  
-PPT
-END
+to erasechair
+	pen erase
+	bk 200 repeat 4 [ fd 100 rt 90 ]
+	ppt
+end
 
-CS CHAIR WAIT 200 ERASECHAIR
+cs chair wait 200 erasechair

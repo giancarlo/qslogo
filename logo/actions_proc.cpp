@@ -68,7 +68,7 @@ namespace logo {
 			stack.push(variables[scope + name]);
 		}
 
-		void _if(IterT, IterT b)
+		void _if(IterT, IterT)
 		{
 			QString code = stack.pop().toString();
 			bool condition = stack.pop().toBool();
@@ -80,7 +80,7 @@ namespace logo {
 		 *  
 		 *  Problems: This assumes the stack contains the repeat value. Which might not be right.
 		 */
-		void repeat(IterT start, IterT end)
+		void repeat(IterT, IterT)
 		{
 			QString block = stack.pop().toString();
 			for (int i = stack.pop().toInt(); i > 0; --i)
@@ -105,8 +105,21 @@ namespace logo {
 				variables[scope + *i] = stack.pop();
 			}
 			call_stack.push(scope);
-			win->interpreter->parse(functions[scope].code);
+
+			try {
+				win->interpreter->parse(functions[scope].code);
+			}  catch(QVariant& ret)
+			{
+				LOGO_DEBUG("Function returned: " + ret.toString());// push ret?
+
+			}
+
 			scope = call_stack.pop();
+		}
+
+		void stop(IterT, IterT)
+		{
+			throw QVariant(0); //fn_return();
 		}
 
 		void error(IterT first, IterT last)

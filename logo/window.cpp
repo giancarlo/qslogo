@@ -127,6 +127,7 @@ logo::window::window(QWidget *parent) : QMainWindow(parent)
 	resizeEvent(0);
 	
 	connect(command, SIGNAL(returnPressed()), this, SLOT(onReturnPressed()));
+	connect(log, SIGNAL(doubleClicked()), this, SLOT(onLogDoubleClick()));
 
 	LOGO_DEBUG("Window Initialized.");
 }
@@ -149,4 +150,10 @@ void logo::window::resizeEvent(QResizeEvent * /*event*/)
 	qreal h = scene->height();
 
 	scene->setSceneRect(-w/2, -h/2, w, h);
+}
+
+void logo::window::onLogDoubleClick(const QModelIndex& index)
+{
+	command->setText(index.data().toString());
+	onReturnPressed();
 }

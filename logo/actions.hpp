@@ -33,6 +33,10 @@ namespace logo
 		QVector<QString> args;
 	};
 
+	struct fn_return {
+		QVariant value;
+	};
+
 	namespace action {
 
 		/**
@@ -86,6 +90,7 @@ namespace logo
 		void gte(IterT, IterT);
 		void lt(IterT, IterT);
 		void lte(IterT, IterT);
+		void eq(IterT, IterT);
 		void mod(IterT, IterT);
 		
 		void forward(IterT, IterT);
@@ -100,6 +105,7 @@ namespace logo
 		void arg(IterT, IterT);
 		void method_name(IterT, IterT);
 		void do_call(IterT, IterT);
+		void stop(IterT, IterT);
 
 		void _if(IterT, IterT);
 

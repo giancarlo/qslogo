@@ -1,6 +1,6 @@
 to dial
   
-  cs show [Type in your latitude as a whole number]
+  cs print [Type in your latitude as a whole number]
   make "latitude readword  ;uses keyboard input
   for [i 0 6 1][
      make "ang arctan product sin :latitude tan product  :i 15  ;the calculation

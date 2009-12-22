@@ -91,7 +91,7 @@ namespace logo
 			// Other
 			eol, invalid, end, comment,
 			// Editor
-			edit, save,
+			edit, save, stop,
 			// Functions
 			to, other, var,
 			// Logic
@@ -113,26 +113,29 @@ namespace logo
 			identifier  = lexeme_d[+alnum_p];
 
 			/* actions_arit.cpp */
-			sum        = (str_p("sum") >> expression >> eol >> expression >> eol)[&logo::action::sum];
-			difference = (str_p("dif") >> expression >> eol >> expression >> eol)[&logo::action::dif];
-			product    = (str_p("prod")>> expression >> eol >> expression >> eol)[&logo::action::product];
-			divide     = (str_p("div") >> expression >> eol >> expression >> eol)[&logo::action::divide];
+			sum        = ("sum" >> expression >> eol >> expression >> eol)[&logo::action::sum];
+			difference = ("dif" >> expression >> eol >> expression >> eol)[&logo::action::dif];
+			product    = ("prod">> expression >> eol >> expression >> eol)[&logo::action::product];
+			divide     = ("div" >> expression >> eol >> expression >> eol)[&logo::action::divide];
 			mod        = ("mod" >> expression >> expression)[&logo::action::mod];
 
-			negate     = (str_p("neg") >> expression >> eol)[&logo::action::negate];
-			sqr        = (str_p("sqr") >> expression >> eol)[&logo::action::sqr];
+			negate     = ("neg" >> expression >> eol)[&logo::action::negate];
+			sqr        = ("sqr" >> expression >> eol)[&logo::action::sqr];
 			
-			term       = sum | difference | product | divide | negate | sqr | mod | number;
-			comp       = term >> *(
-				             ('>' >> term)[&gt] |
-				             ('<' >> term)[&lt] |
-					     (">=" >> term)[&gte] |
-					     ("<=" >> term)[&lte]
-			             );
-			             
-			var        = (':' >> identifier)[&logo::action::var];
+			term = sum | difference | product | divide | negate | sqr | mod | number | var | function;
+			comp = term >> *(
+			      ('>' >> expression)[&gt] |
+			      ('<' >> expression)[&lt] |
+			      (">=" >> expression)[&gte] |
+			      ("<=" >> expression)[&lte] |
+			      ('=' >> expression)[&eq]
+			);
 
-			expression = string | comp | var | function;
+			stop  = str_p("stop")[&logo::action::stop];
+			             
+			var = (':' >> identifier)[&logo::action::var];
+
+			expression = string | comp ;
 			
 			/* Control Statements */
 			repeat = "repeat" >> expression >> block[&logo::action::repeat];
@@ -141,8 +144,8 @@ namespace logo
 			               (':' >> identifier[&logo::action::string] >> eol)[&logo::action::thing]
 			               ;
 
-			if_stmt  = ("if" >> expression >> block)[&_if];
-			block    = '[' >> (no_actions_d[statements])[&logo::action::string] >> ']';
+			if_stmt = str_p("if") >> expression >> block[&_if];
+			block   = '[' >> (no_actions_d[statements])[&logo::action::string] >> ']';
 
 			/* TURTLE Commands */
 
@@ -203,8 +206,9 @@ namespace logo
 			edit = (str_p("edit") >> (*string))[&logo::action::edit];
 			save = (str_p("save") >> string)[&logo::action::save];
 
-			print		= (str_p("print") >> expression)[&logo::action::print] >> eol;
-			exit		= str_p("bye")[&logo::action::exit] >> eol;
+			print = ("print" >> expression)[&logo::action::print];
+			exit  = str_p("bye")[&logo::action::exit];
+
 			statement = (
 				back | forward | right | left | home |
 				circle |
@@ -212,8 +216,8 @@ namespace logo
 				print | cs | 
 				repeat |
 				make | to | if_stmt |
-				exit | comment | 
-				edit | save | function |
+				exit | comment | stop |
+				edit | save | function | 
 				other
 			);
 
