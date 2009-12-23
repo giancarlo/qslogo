@@ -85,5 +85,18 @@ namespace logo { namespace action {
 		logo::win->turtle->moveBy(0, stack.pop().toDouble());
 	}
 
+	void penwidth(IterT, IterT)
+	{
+		logo::win->turtle->Pen().setWidth(stack.pop().toInt());
+	}
+
+	void setcolor(IterT, IterT)
+	{
+		int b = stack.pop().toInt();
+		int g = stack.pop().toInt();
+		int r = stack.pop().toInt();
+
+		logo::win->turtle->Pen().setColor(QColor(r, g, b));
+	}
 
 } } // end logo::action

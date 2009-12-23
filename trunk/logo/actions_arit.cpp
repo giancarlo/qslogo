@@ -81,6 +81,7 @@ namespace logo
 		{
 			stack.push(stack.pop().toDouble() == stack.pop().toDouble());
 		}
+
 	}
 }
 

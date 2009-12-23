@@ -37,7 +37,7 @@ namespace logo {
 	{
 		QGraphicsPixmapItem* pixmap;
 		QGraphicsScene*      scene;
-		QPen								 pen;
+		QPen                 pen;
 
 		public:
 
@@ -45,6 +45,8 @@ namespace logo {
 			
 			// Sets Pen up(true) or down
 			void setpen(logo::pen);
+			// Returns current pen
+			QPen& Pen();
 	
 			void moveBy(qreal, qreal);
 			void forward(qreal count);

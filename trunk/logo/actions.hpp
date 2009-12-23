@@ -70,9 +70,11 @@ namespace logo
 		void ycor(IterT, IterT);
 		void penup(IterT, IterT);
 		void pendown(IterT, IterT);
+		void penwidth(IterT, IterT);
 		void home(IterT, IterT);
 		void setx(IterT, IterT);
 		void sety(IterT, IterT);
+		void setcolor(IterT, IterT);
 
 		void circle(IterT, IterT);
 

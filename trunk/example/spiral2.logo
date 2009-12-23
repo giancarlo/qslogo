@@ -1,0 +1,17 @@
+to spiral :w :a :x :c :ww
+  if :c = 0 [stop]
+  pen width :ww
+  color dif 255 prod :w 2 0 prod :w 2
+  lt :x
+  fd :w
+  pu
+  bk :w
+  rt :x
+  fd :w
+  pd 
+  rt :a
+  spiral sum :w 1 :a sum :x 0.7 dif :c 1 sum :ww 0.1
+end
+
+reset
+spiral 1 30 10 90 1
