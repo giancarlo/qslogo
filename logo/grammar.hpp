@@ -95,7 +95,7 @@ namespace logo
 			// Functions
 			to, other, var,
 			// Logic
-			if_stmt
+			if_stmt, ifelse
 		;
 
 		definition(grammar const& /* self */)  
@@ -147,6 +147,7 @@ namespace logo
 			               ;
 
 			if_stmt = str_p("if") >> expression >> block[&_if];
+			ifelse  = ("ifelse" >> expression >> block >> block)[&logo::action::ifelse];
 			block   = '[' >> (no_actions_d[statements])[&logo::action::string] >> ']';
 
 			/* TURTLE Commands */
@@ -223,7 +224,7 @@ namespace logo
 				pen | get | set |
 				print | cs | 
 				repeat |
-				make | to | if_stmt |
+				make | to | if_stmt | ifelse |
 				exit | comment | stop |
 				edit | save | function | 
 				other
