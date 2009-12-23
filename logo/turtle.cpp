@@ -34,6 +34,11 @@ void logo::turtle::setpen(logo::pen what)
 	};	
 }
 
+QPen& logo::turtle::Pen()
+{
+	return pen;
+}
+
 void logo::turtle::reset()
 {
 	pixmap->resetTransform();

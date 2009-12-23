@@ -73,7 +73,7 @@ namespace logo
 			// Turtle Position
 			xcor, ycor,
 			// turtle stuff
-			pen,
+			pen, color,
 			// Algebra!
 			sum, difference, negate, product, divide, sqrt, power, sqr, term, mod,
 			comp,
@@ -118,6 +118,7 @@ namespace logo
 			product    = ("prod">> expression >> eol >> expression >> eol)[&logo::action::product];
 			divide     = ("div" >> expression >> eol >> expression >> eol)[&logo::action::divide];
 			mod        = ("mod" >> expression >> expression)[&logo::action::mod];
+			color      = ("color" >> expression);
 
 			negate     = ("neg" >> expression >> eol)[&logo::action::negate];
 			sqr        = ("sqr" >> expression >> eol)[&logo::action::sqr];
@@ -130,12 +131,13 @@ namespace logo
 			      ("<=" >> expression)[&lte] |
 			      ('=' >> expression)[&eq]
 			);
+			//list = ('[' >> *expression >> ']')[&list_constructor];
 
 			stop  = str_p("stop")[&logo::action::stop];
 			             
 			var = (':' >> identifier)[&logo::action::var];
 
-			expression = string | comp ;
+			expression = string | /*list |*/ comp ;
 			
 			/* Control Statements */
 			repeat = "repeat" >> expression >> block[&logo::action::repeat];
@@ -166,10 +168,15 @@ namespace logo
 			      ("sety" >> expression)[&sety]
 			;
 
-			pen		= str_p("pen") >>
-					  (str_p("up")[&logo::action::penup] |
-					  str_p("down")[&logo::action::pendown])
-					  >> eol;
+			pen		= (str_p("pen") >>
+						(str_p("up")[&penup] |
+						 str_p("down")[&pendown])
+					  ) |
+					  (str_p("pen width") >> expression)[&penwidth] |
+					  str_p("pu")[&penup] | 
+					  str_p("pd")[&pendown]
+			;
+			color  = "color" >> expression >> expression >> expression;
 
 			home		= (str_p("home") >> eol)[&logo::action::home];
 			circle		= (str_p("circle") >> expression >> eol)[&logo::action::circle];
@@ -179,6 +186,7 @@ namespace logo
 			ycor		= str_p("ycor")[&logo::action::ycor] >> eol;
 
 			function	= xcor | ycor | thing |
+				          color[&setcolor] | 
 				          (lexeme_d[function_p[&logo::action::call]] >> *expression)[&do_call];
 
 			/* Screen Commands */
