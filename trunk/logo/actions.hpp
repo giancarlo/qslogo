@@ -110,6 +110,7 @@ namespace logo
 		void stop(IterT, IterT);
 
 		void _if(IterT, IterT);
+		void ifelse(IterT, IterT);
 
 		void edit(IterT, IterT);
 		void save(IterT, IterT);

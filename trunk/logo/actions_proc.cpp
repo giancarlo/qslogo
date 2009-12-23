@@ -73,7 +73,16 @@ namespace logo {
 			QString code = stack.pop().toString();
 			bool condition = stack.pop().toBool();
 			if (condition)
-				win->interpreter->parse(code.constBegin(), code.constEnd());
+				win->interpreter->parse(code);
+		}
+
+		void ifelse(IterT, IterT)
+		{
+			QString else_code = stack.pop().toString();
+			QString code = stack.pop().toString();
+			bool condition = stack.pop().toBool();
+
+			win->interpreter->parse(condition ? code : else_code);
 		}
 
 		/*

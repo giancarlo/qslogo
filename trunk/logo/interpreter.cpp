@@ -42,6 +42,7 @@ void logo::interpreter::parse(logo::action::IterT a, logo::action::IterT b)
 		win->statusBar()->showMessage(e);
 	}
 
+	//LOGO_DEBUG("Stack Size: " + logo::action::stack.size());
 	logo::action::stack.clear();
 }
 
