@@ -39,9 +39,16 @@ QPen& logo::turtle::Pen()
 	return pen;
 }
 
-void logo::turtle::reset()
+void logo::turtle::home()
 {
 	pixmap->resetTransform();
+}
+
+void logo::turtle::reset()
+{
+	home();
+	pen.setColor(QColor(0,0,0));
+	pen.setWidth(1);
 }
 
 qreal logo::turtle::x()
@@ -81,11 +88,19 @@ void logo::turtle::moveBy(qreal dx, qreal dy)
 	pixmap->translate(dx, dy);
 }
 
-void logo::turtle::circle(qreal radius)
+QGraphicsEllipseItem* logo::turtle::circle(qreal radius)
 {
 	// Calculate Rect
 	qreal t = radius * COS45;
 	QGraphicsEllipseItem* i = scene->addEllipse(-t, -t, t+t, t+t, pen);
 	i->setPos(x(), y());
+	return i;
+}
+
+QGraphicsEllipseItem* logo::turtle::arc(qreal degree, qreal radius)
+{
+	QGraphicsEllipseItem* i = circle(radius);
+	i->setSpanAngle(degree * 16);
+	return i;
 }
 

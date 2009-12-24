@@ -76,12 +76,12 @@ namespace logo
 			pen, color,
 			// Algebra!
 			sum, difference, negate, product, divide, sqrt, power, sqr, term, mod,
-			comp,
+			comp, rand,
 			// Data
 			make, list, thing, arg,
 			// Primitives
 			forward, left, right, back,
-			circle,
+			circle, arc,
 			cs, 
 			print, exit, home,
 			// Control Structures
@@ -118,8 +118,7 @@ namespace logo
 			product    = ("prod">> expression >> eol >> expression >> eol)[&logo::action::product];
 			divide     = ("div" >> expression >> eol >> expression >> eol)[&logo::action::divide];
 			mod        = ("mod" >> expression >> expression)[&logo::action::mod];
-			color      = ("color" >> expression);
-
+			
 			negate     = ("neg" >> expression >> eol)[&logo::action::negate];
 			sqr        = ("sqr" >> expression >> eol)[&logo::action::sqr];
 			
@@ -180,14 +179,16 @@ namespace logo
 			;
 			color  = "color" >> expression >> expression >> expression;
 
-			home		= (str_p("home") >> eol)[&logo::action::home];
-			circle		= (str_p("circle") >> expression >> eol)[&logo::action::circle];
+			home   = (str_p("home") >> eol)[&logo::action::home];
+			circle = (str_p("circle") >> expression >> eol)[&logo::action::circle];
+			arc    = ("arc" >> expression >> expression)[&logo::action::arc];
 
 			/* FUNCTIONS */
 			xcor		= str_p("xcor")[&logo::action::xcor] >> eol;
 			ycor		= str_p("ycor")[&logo::action::ycor] >> eol;
+			rand            = ("rand" >> expression)[&random];
 
-			function	= xcor | ycor | thing |
+			function	= xcor | ycor | thing | rand |
 				          color[&setcolor] | 
 				          (lexeme_d[function_p[&logo::action::call]] >> *expression)[&do_call];
 
@@ -221,7 +222,7 @@ namespace logo
 
 			statement = (
 				back | forward | right | left | home |
-				circle |
+				circle | arc |
 				pen | get | set |
 				print | cs | 
 				repeat |

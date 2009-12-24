@@ -57,6 +57,11 @@ namespace logo
 			stack.push(x % y);
 		}
 
+		void random(IterT, IterT)
+		{
+			stack.push(rand() % stack.pop().toInt());
+		}
+
 		void gt(IterT, IterT)
 		{
 			stack.push(stack.pop().toDouble() < stack.pop().toDouble());

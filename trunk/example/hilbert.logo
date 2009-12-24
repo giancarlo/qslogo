@@ -29,6 +29,6 @@ to r :l :w
 end
 
 reset
-;setxy 60 440
-;penwidth 4
-l 2 2
+setxy 60 440
+penwidth 4
+l 6 6

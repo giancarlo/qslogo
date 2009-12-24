@@ -44,6 +44,9 @@ void logo::window::onReturnPressed() {
 	
 	win->statusBar()->showMessage("Ready.");
 	log->addItem(command->text());
+#if LOGO_DEBUG_ENABLE
+	debug->clear();
+#endif
 	QString cmds = editor->toPlainText();
 	cmds += "\n";
 	cmds += command->text();

@@ -53,12 +53,13 @@ namespace logo {
 			void backward(qreal count);
 			void rotate(qreal degree);
 
-			// TODO Is this good here? 
-			void circle(qreal radius);
+			QGraphicsEllipseItem* circle(qreal radius);
+			QGraphicsEllipseItem* arc(qreal degree, qreal radius);
 
 			QGraphicsPixmapItem* item();
 
 			void reset();
+			void home();
 
 			qreal x();
 			qreal y();
