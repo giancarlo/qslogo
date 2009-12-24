@@ -29,7 +29,18 @@ namespace logo {
 	namespace action {
 
 		QString scope;
-		QStack<QString> call_stack;
+		QStack<logo::action::call_struct> call_stack;
+
+		inline QVariant& getVariable(QString name)
+		{
+			QString id = QString::number(call_stack.last().id) + name;
+			return variables[id];
+		}
+
+		inline void setVariable(QString name, QVariant value)
+		{
+			getVariable(name) = value;
+		}	
 
 		void method_name(IterT start, IterT end)
 		{
@@ -52,20 +63,20 @@ namespace logo {
 		void make(IterT, IterT)
 		{
 			QVariant value = stack.pop();
-			QString  name  = stack.pop().toString();
-			variables[scope + name] = value;
+			QString  name  = ":" + stack.pop().toString();
+			setVariable(name, value);
 		}
 
 		void thing(IterT, IterT)
 		{
 			QString name = stack.pop().toString();
-			stack.push(variables[scope + name]);
+			stack.push(getVariable(name));
 		}
 
 		void var(IterT a, IterT b)
 		{
 			QString name(a, b-a);
-			stack.push(variables[scope + name]);
+			stack.push(getVariable(name).toDouble());
 		}
 
 		void _if(IterT, IterT)
@@ -85,10 +96,6 @@ namespace logo {
 			win->interpreter->parse(condition ? code : else_code);
 		}
 
-		/*
-		 *  
-		 *  Problems: This assumes the stack contains the repeat value. Which might not be right.
-		 */
 		void repeat(IterT, IterT)
 		{
 			QString block = stack.pop().toString();
@@ -101,29 +108,31 @@ namespace logo {
 		/** NOTE: Check if the function exists is done in the parser. No Need to do it here */
 		void call(IterT first, IterT last)
 		{
-			scope = QString(first, last-first);
+			scope = QString(first, last-first); // + QString::number(++i));
 		}
 
 		void do_call(IterT, IterT)
 		{
 			logo::function& f = functions[scope];
+			call_stack.push(call_struct(scope));
 
 			for (QVector<QString>::const_iterator i = f.args.begin();
 				i != f.args.end(); ++i)
 			{
-				variables[scope + *i] = stack.pop();
+				QVariant value = stack.pop();
+				setVariable(*i, value); //stack.pop();
 			}
-			call_stack.push(scope);
 
+			//logo::win->scene->up;
+			
 			try {
 				win->interpreter->parse(functions[scope].code);
-			}  catch(QVariant& ret)
+			} catch(QVariant& ret)
 			{
 				LOGO_DEBUG("Function returned: " + ret.toString());// push ret?
+			} 
 
-			}
-
-			scope = call_stack.pop();
+			scope = call_stack.pop().function_name;
 		}
 
 		void stop(IterT, IterT)

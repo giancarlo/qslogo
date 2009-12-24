@@ -166,7 +166,8 @@ namespace logo
 				  >> eol;
 
 			set = ("setx" >> expression)[&setx] |
-			      ("sety" >> expression)[&sety]
+			      ("sety" >> expression)[&sety] |
+			      ("setxy" >> expression >> expression)[&setxy]
 			;
 
 			pen		= (str_p("pen") >>

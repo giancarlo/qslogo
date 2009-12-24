@@ -38,15 +38,34 @@ namespace logo
 	};
 
 	namespace action {
+	
+		struct call_struct
+		{
+			int id;
+			QString function_name;
 
-		/**
-		 *	qreal Stack. I could use QStack but it is the same thing, so i refuse to.
-		 */		
+			void get_id()
+			{
+				static int i = 0;
+				id = ++i;
+			}
+
+			call_struct()
+			{
+				get_id();
+			}
+
+			call_struct(const QString& fn_name)
+			{		
+				get_id();
+				function_name = fn_name;
+			}
+		};
 
 		extern QStack<QVariant>         stack;
 		extern QHash<QString, QVariant> variables;
 		extern QHash<QString, logo::function>  functions;
-		extern QStack<QString> call_stack;
+		extern QStack<call_struct> call_stack;
 		extern QString scope;
 
 		///	Print will print text on screen. 
@@ -74,6 +93,7 @@ namespace logo
 		void home(IterT, IterT);
 		void setx(IterT, IterT);
 		void sety(IterT, IterT);
+		void setxy(IterT, IterT);
 		void setcolor(IterT, IterT);
 
 		void circle(IterT, IterT);

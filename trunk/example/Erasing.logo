@@ -5,3 +5,10 @@ to erasechair
 end
 
 cs chair wait 200 erasechair
+
+to test :value
+
+	make "value sum :value 1
+	if :value = 1 [ print [WORK] ]
+
+end
