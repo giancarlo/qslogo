@@ -34,6 +34,7 @@ namespace logo { namespace action {
 void logo::interpreter::parse(logo::action::IterT a, logo::action::IterT b)
 {
 	logo::grammar g;
+	srand((int)&a + (int)&b);
 	
 	try {
 		LOGO_SPIRIT_NS::parse(a, b, g, LOGO_SPIRIT_NS::space_p);

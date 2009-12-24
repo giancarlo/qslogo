@@ -97,6 +97,7 @@ namespace logo
 		void setcolor(IterT, IterT);
 
 		void circle(IterT, IterT);
+		void arc(IterT, IterT);
 
 		void string(IterT, IterT);
 		void number(float);
@@ -114,6 +115,7 @@ namespace logo
 		void lte(IterT, IterT);
 		void eq(IterT, IterT);
 		void mod(IterT, IterT);
+		void random(IterT, IterT);
 		
 		void forward(IterT, IterT);
 		void back(IterT, IterT);

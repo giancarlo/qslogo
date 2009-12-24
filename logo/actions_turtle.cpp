@@ -65,12 +65,19 @@ namespace logo { namespace action {
 
 	void home(IterT, IterT)
 	{
-		logo::win->turtle->reset();
+		logo::win->turtle->home();
 	}
 
 	void circle(IterT, IterT)
 	{
 		logo::win->turtle->circle(stack.pop().toDouble());	
+	}
+
+	void arc(IterT, IterT)
+	{
+		double dg = stack.pop().toDouble();
+		double r = stack.pop().toDouble();
+		logo::win->turtle->arc(dg, r);
 	}
 
 	void setx(IterT, IterT)
