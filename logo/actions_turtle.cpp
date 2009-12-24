@@ -85,6 +85,13 @@ namespace logo { namespace action {
 		logo::win->turtle->moveBy(0, stack.pop().toDouble());
 	}
 
+	void setxy(IterT, IterT)
+	{
+		logo::win->turtle->reset();
+		double y = stack.pop().toDouble();
+		logo::win->turtle->moveBy(stack.pop().toDouble(), y);
+	}
+
 	void penwidth(IterT, IterT)
 	{
 		logo::win->turtle->Pen().setWidth(stack.pop().toInt());
