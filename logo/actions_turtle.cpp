@@ -94,7 +94,7 @@ namespace logo { namespace action {
 
 	void setxy(IterT, IterT)
 	{
-		logo::win->turtle->reset();
+		logo::win->turtle->home();
 		double y = stack.pop().toDouble();
 		logo::win->turtle->moveBy(stack.pop().toDouble(), y);
 	}
@@ -110,7 +110,9 @@ namespace logo { namespace action {
 		int g = stack.pop().toInt();
 		int r = stack.pop().toInt();
 
-		logo::win->turtle->Pen().setColor(QColor(r, g, b));
+		logo::win->turtle->Pen().setColor(QColor(
+			r > 255 ? 255 : r, g > 255 ? 255 : g, b > 255 ? 255 : b
+		));
 	}
 
 } } // end logo::action

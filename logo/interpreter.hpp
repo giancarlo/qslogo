@@ -27,6 +27,7 @@
 
 #include <QtCore/QStack>
 #include <QtCore/QVector>
+#include <Qthread>
 
 #include "main.hpp"
 
@@ -45,13 +46,13 @@ namespace logo
 		
 	public:
 
+
 		/**
 		 *	Parses the data contained in the pointers (first to last).
 		 *	Throws an exception only if an error occurs.
 		 */
-		void parse(logo::action::IterT first, logo::action::IterT last);
 		void parse(QString code);
-
+		void parse(logo::action::IterT s, logo::action::IterT e);
 	};
 }
 

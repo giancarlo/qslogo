@@ -76,7 +76,7 @@ namespace logo
 			pen, color,
 			// Algebra!
 			sum, difference, negate, product, divide, sqrt, power, sqr, term, mod,
-			comp, rand,
+			comp, rand, cos,
 			// Data
 			make, list, thing, arg,
 			// Primitives
@@ -119,8 +119,8 @@ namespace logo
 			divide     = ("div" >> expression >> eol >> expression >> eol)[&logo::action::divide];
 			mod        = ("mod" >> expression >> expression)[&logo::action::mod];
 			
-			negate     = ("neg" >> expression >> eol)[&logo::action::negate];
-			sqr        = ("sqr" >> expression >> eol)[&logo::action::sqr];
+			negate = ("neg" >> expression >> eol)[&logo::action::negate];
+			sqr    = ("sqr" >> expression >> eol)[&logo::action::sqr];
 			
 			term = sum | difference | product | divide | negate | sqr | mod | number | var | function;
 			comp = term >> *(
@@ -130,6 +130,15 @@ namespace logo
 			      ("<=" >> expression)[&lte] |
 			      ('=' >> expression)[&eq]
 			);
+
+			sqrt   = ("sqrt" >> expression)[&logo::action::sqrt];
+			cos    = ("cos" >> expression)[&logo::action::cos];
+			rand   = ("rand" >> expression)[&random];
+
+			function = xcor | ycor | thing | rand | cos |
+				   color[&setcolor] | 
+				   (lexeme_d[function_p[&logo::action::call]] >> *expression)[&do_call];
+
 			//list = ('[' >> *expression >> ']')[&list_constructor];
 
 			stop  = str_p("stop")[&logo::action::stop];
@@ -151,8 +160,8 @@ namespace logo
 
 			/* TURTLE Commands */
 
-			forward = ((str_p("forward") | str_p("fd")) >>  expression >> eol)[&logo::action::forward];
-			back    = ((str_p("back") | str_p("bk")) >> expression >> eol)[&logo::action::back];
+			forward = ((str_p("forward") | str_p("fd") | "fw") >>  expression >> eol)[&logo::action::forward];
+			back    = ((str_p("back") | str_p("bk") | "bw") >> expression >> eol)[&logo::action::back];
 			right   = ((str_p("right") | str_p("rt")) >> expression >> eol)[&logo::action::right];
 			left    = ((str_p("left")  | str_p("lt")) >> expression >> eol)[&logo::action::left];
 
@@ -186,17 +195,12 @@ namespace logo
 			/* FUNCTIONS */
 			xcor		= str_p("xcor")[&logo::action::xcor] >> eol;
 			ycor		= str_p("ycor")[&logo::action::ycor] >> eol;
-			rand            = ("rand" >> expression)[&random];
-
-			function	= xcor | ycor | thing | rand |
-				          color[&setcolor] | 
-				          (lexeme_d[function_p[&logo::action::call]] >> *expression)[&do_call];
 
 			/* Screen Commands */
 
 			cs = (str_p("cs") | 
 			     (str_p("clear") >> "screen") |
-			      "reset"
+			      "reset" 
 			     )[ &logo::action::clear_screen ]
 			;
 

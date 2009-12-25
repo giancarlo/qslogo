@@ -1,0 +1,36 @@
+to cesaro :level :size :angle
+ ifelse :level = 0 [
+ fw :size
+ ] [
+ make "newsize div :size sum 2 prod cos :angle 2
+ cesaro dif :level 1 :newsize :angle
+ left :angle
+ cesaro dif :level 1 :newsize :angle
+ right prod :angle 2
+ cesaro dif :level 1 :newsize :angle
+ left :angle
+ cesaro dif :level 1 :newsize :angle
+ ]
+end
+
+make "startlevel 5
+make "startsize 450
+make "startangle 78
+make "startpos -200
+
+reset
+pen width 1000
+fw 1
+pen width 1
+color 0 127 255
+
+setxy :startpos :startpos
+right 180
+
+repeat 4 [
+ cesaro :startlevel :startsize :startangle
+ left 90
+]
+
+penup
+fw 1000

@@ -1,0 +1,13 @@
+to spiral :w  :a :x :c :ww
+  if :c = 0 [stop]
+  pen width :ww
+  repeat 6 [fw 25 right 144]
+color rand 250 rand 250 rand 250
+  pu
+fw :w   
+rt :x
+  pd 
+  spiral sum :w 6  sum :a 0.5 sum :x 0.3 dif :c 1 sum :ww 0.05 
+end
+reset
+spiral 15 4 10 75 1

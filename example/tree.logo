@@ -1,0 +1,21 @@
+to tree :distance
+if :distance > 4 [
+pen width div :distance 7
+color :distance dif 255 prod :distance 3 125
+fw :distance 
+rt 25
+tree dif prod :distance 0.8 2
+lt 45
+tree dif :distance 10
+rt 20
+bk :distance
+]
+end
+reset
+pu
+bk 220
+lt 90
+bk 50
+rt 90
+pd
+tree 90

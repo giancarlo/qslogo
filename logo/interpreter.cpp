@@ -31,13 +31,17 @@ namespace logo { namespace action {
 	QHash<QString, logo::function>	functions;
 }}
 
-void logo::interpreter::parse(logo::action::IterT a, logo::action::IterT b)
+void logo::interpreter::parse(QString code)
+{
+	parse(code.constBegin(), code.constEnd());
+}
+
+void logo::interpreter::parse(logo::action::IterT s, logo::action::IterT e)
 {
 	logo::grammar g;
-	srand((int)&a + (int)&b);
-	
+
 	try {
-		LOGO_SPIRIT_NS::parse(a, b, g, LOGO_SPIRIT_NS::space_p);
+		LOGO_SPIRIT_NS::parse(s, e, g, LOGO_SPIRIT_NS::space_p);
 	} catch(QString& e)
 	{
 		win->statusBar()->showMessage(e);
@@ -45,10 +49,5 @@ void logo::interpreter::parse(logo::action::IterT a, logo::action::IterT b)
 
 	//LOGO_DEBUG("Stack Size: " + logo::action::stack.size());
 	logo::action::stack.clear();
-}
-
-void logo::interpreter::parse(QString code)
-{
-	parse(code.constBegin(), code.constEnd());
 }
 
