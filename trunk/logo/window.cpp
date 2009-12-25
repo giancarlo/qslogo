@@ -23,11 +23,13 @@
 //#include <string>
 
 #include <QResource>
+#include <ctime>
 
 #include "debug.hpp"
 #include "interpreter.hpp"
 #include "window.hpp"
 #include "turtle.hpp"
+#include "actions.hpp"
 
 namespace logo {
 
@@ -51,7 +53,12 @@ void logo::window::onReturnPressed() {
 	cmds += "\n";
 	cmds += command->text();
 
-	this->interpreter->parse(cmds.constBegin(), cmds.constEnd());
+	srand(time(NULL));
+
+	logo::action::call_stack.clear();
+	logo::action::call_stack.push(logo::action::call_struct("global"));
+
+	this->interpreter->parse(cmds);
 	
 	command->clear();
 }

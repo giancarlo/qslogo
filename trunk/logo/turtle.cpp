@@ -47,6 +47,7 @@ void logo::turtle::home()
 void logo::turtle::reset()
 {
 	home();
+	setpen(logo::down);
 	pen.setColor(QColor(0,0,0));
 	pen.setWidth(1);
 }

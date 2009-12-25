@@ -80,6 +80,7 @@ namespace logo
 		void thing(IterT, IterT);
 
 		void repeat(IterT, IterT);
+		void sqrt(IterT, IterT);
 
 		/*
 		 *	Turtle Actions and Queries
@@ -116,6 +117,7 @@ namespace logo
 		void eq(IterT, IterT);
 		void mod(IterT, IterT);
 		void random(IterT, IterT);
+		void cos(IterT, IterT);
 		
 		void forward(IterT, IterT);
 		void back(IterT, IterT);

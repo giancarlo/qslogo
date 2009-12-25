@@ -84,7 +84,9 @@ namespace logo {
 			QString code = stack.pop().toString();
 			bool condition = stack.pop().toBool();
 			if (condition)
+			{
 				win->interpreter->parse(code);
+			}
 		}
 
 		void ifelse(IterT, IterT)

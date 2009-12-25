@@ -1,0 +1,78 @@
+reset
+
+setxy -100 -100
+
+fd 20 pu bk 5   pd arc 5 180
+pu          bk  5           rt
+90          fd  10          pd
+rt 55 fd 10     rt 70 fd 10  
+bk              20
+lt              125
+pu              fd 5
+
+lt 90 pd bk 10 fd 5 rt 45 fd 7
+pu bk 7 rt 45 fd 15 pd circle 5
+pu fd 15 lt 90 bk 5 pd fd 20 pu
+bk 5 pd arc 5 180 pu bk 10 rt
+90 fd 10 pd fd 10 bk 5 rt 60 arc
+5 300 lt 60 pu fd 15 rt 90 pd
+arc 5 90 pu bk 10 rt 90 pd fd 10
+pu rt 90 fd 5 rt 90 fd 5 rt 90
+pd fd 15 pu lt 90 fd 10 pd fd 10
+bk 5 rt 60 arc 5 300 lt 60 pu fd
+10 lt 90 fd 5 rt 90 lt 90 pd bk
+10 fd 5 rt 45 fd 7
+
+home
+
+make "vpax -250
+make "vpay 250
+make "vpbx 250
+make "vpby 250
+make "vpcx 0
+make "vpcy -250
+
+color 180 180 180
+setxy :vpax :vpay
+circle 50
+setxy :vpbx :vpby
+circle 50
+setxy :vpcx :vpcy
+circle 50
+
+make "lastx :vpax
+make "lasty :vpay
+
+make "colorr 0
+make "colorg 0
+make "colorb 0
+make "coloradd 140
+make "colordiv 1.4
+make "dotsize 1.5
+
+pen width prod :dotsize 2
+repeat 10000 [
+  make "colorr div :colorr :colordiv
+  make "colorg div :colorg :colordiv
+  make "colorb div :colorb :colordiv
+  make "choice rand 3
+  if :choice = 0 [
+    make "lastx sum :vpax div dif :lastx :vpax 2
+    make "lasty sum :vpay div dif :lasty :vpay 2
+    make "colorr sum :colorr :coloradd
+  ]
+  if :choice = 1 [
+    make "lastx sum :vpbx div dif :lastx :vpbx 2
+    make "lasty sum :vpby div dif :lasty :vpby 2
+    make "colorg sum :colorg :coloradd
+  ]
+  if :choice = 2 [
+    make "lastx sum :vpcx div dif :lastx :vpcx 2
+    make "lasty sum :vpcy div dif :lasty :vpcy 2
+    make "colorb sum :colorb :coloradd
+  ]
+  color :colorr :colorg :colorb
+  setxy :lastx :lasty
+  fd :dotsize
+]
+

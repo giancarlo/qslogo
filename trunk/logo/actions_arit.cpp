@@ -8,6 +8,9 @@
 
 #include "main.hpp"
 #include "actions.hpp"
+#include <cmath>
+
+#define PI 3.14159265
 
 namespace logo
 {
@@ -48,6 +51,16 @@ namespace logo
 		void negate(IterT, IterT)
 		{
 			stack.push(- stack.pop().toDouble());
+		}
+
+		void sqrt(IterT, IterT)
+		{
+			stack.push(::sqrt(stack.pop().toDouble()));
+		}
+
+		void cos(IterT, IterT)
+		{
+			stack.push(::cos(stack.pop().toDouble()) * PI / 180.0);			
 		}
 
 		void mod(IterT, IterT)
