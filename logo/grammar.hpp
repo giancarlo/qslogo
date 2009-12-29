@@ -24,6 +24,7 @@
 
 #include "spirit.hpp"
 #include "actions.hpp"
+#include "window.hpp"
 
 namespace logo
 {

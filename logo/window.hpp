@@ -101,7 +101,7 @@ namespace logo
 };
 
 	// win defined in window.cpp
-	extern const logo::window* win;
+	extern logo::window* win;
 };
 
 

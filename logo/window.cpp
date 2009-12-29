@@ -33,7 +33,7 @@
 
 namespace logo {
 
-	const logo::window* win;
+	logo::window* win;
 
 }
 
