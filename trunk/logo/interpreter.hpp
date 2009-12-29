@@ -22,12 +22,8 @@
 #ifndef LOGO_INTERPRETER_HPP
 #define LOGO_INTERPRETER_HPP
 
-//#include "stack.hpp"
-//#include "symboltable.hpp"
-
 #include <QtCore/QStack>
 #include <QtCore/QVector>
-#include <Qthread>
 
 #include "main.hpp"
 
