@@ -86,7 +86,7 @@ namespace logo
 			cs, 
 			print, exit, home,
 			// Control Structures
-			repeat,
+			repeat, repcount,
 			// Types
 			string, number,
 			// Other
@@ -136,7 +136,8 @@ namespace logo
 			cos    = ("cos" >> expression)[&logo::action::cos];
 			rand   = ("rand" >> expression)[&random];
 
-			function = xcor | ycor | thing | rand | cos |
+			function = xcor | ycor | thing | rand | cos | 
+			           repcount[&logo::action::repcount] |
 				   color[&setcolor] | 
 				   (lexeme_d[function_p[&logo::action::call]] >> *expression)[&do_call];
 
@@ -150,6 +151,7 @@ namespace logo
 			
 			/* Control Statements */
 			repeat = "repeat" >> expression >> block[&logo::action::repeat];
+			repcount = "repcount" >> eol;
 			make   = ("make" >> string >> expression)[&logo::action::make];
 			thing  = ("thing" >> string >> eol)[&logo::action::thing] |
 			               (':' >> identifier[&logo::action::string] >> eol)[&logo::action::thing]
