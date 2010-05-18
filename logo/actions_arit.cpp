@@ -3,6 +3,7 @@
  *	Copyright (c) 2007 - Giancarlo Bellido
  *
  *	actions_turtles.cpp
+ *	TODO This file should be called actions_math.cpp
  *  
  */
 
@@ -61,6 +62,11 @@ namespace logo
 		void cos(IterT, IterT)
 		{
 			stack.push(::cos(stack.pop().toDouble()) * PI / 180.0);			
+		}
+
+		void sin(IterT, IterT)
+		{
+			stack.push(::sin(stack.pop().toDouble()) * PI / 180.0);
 		}
 
 		void mod(IterT, IterT)

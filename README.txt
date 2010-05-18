@@ -45,6 +45,8 @@ neg
 pen [up|down]
 home
 print expression
+repeat x [ code ]
+repcount
 ; # Comments
 
 	
