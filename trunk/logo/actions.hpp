@@ -119,6 +119,7 @@ namespace logo
 		void mod(IterT, IterT);
 		void random(IterT, IterT);
 		void cos(IterT, IterT);
+		void sin(IterT, IterT);
 		
 		void forward(IterT, IterT);
 		void back(IterT, IterT);

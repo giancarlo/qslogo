@@ -69,9 +69,7 @@ const QPointF logo::turtle::pos()
 
 void logo::turtle::forward(qreal count)
 {
-	QPointF last(pixmap->scenePos());
-	pixmap->translate(0, -count);
-	scene->addLine(QLineF(last, pixmap->scenePos()), pen);
+	moveBy(0, -count);
 }
 
 void logo::turtle::backward(qreal count)
@@ -84,9 +82,26 @@ void logo::turtle::rotate(qreal degree)
 	pixmap->rotate(degree);
 }
 
+/**
+ * Moves and Draws turtle by dx, dy
+ */
 void logo::turtle::moveBy(qreal dx, qreal dy)
 {
+	QPointF last(pixmap->scenePos());
 	pixmap->translate(dx, dy);
+	scene->addLine(QLineF(last, pixmap->scenePos()), pen);
+}
+
+/**
+ * TODO Fix this up.
+ */
+void logo::turtle::moveTo(qreal x, qreal y)
+{
+	QTransform tt = pixmap->transform();
+	pixmap->resetTransform();
+	scene->addLine(0.0, 0.0, x, y, pen);
+	tt.translate(x,y);
+	pixmap->setTransform(tt);
 }
 
 QGraphicsEllipseItem* logo::turtle::circle(qreal radius)

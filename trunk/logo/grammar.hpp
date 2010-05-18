@@ -77,7 +77,7 @@ namespace logo
 			pen, color,
 			// Algebra!
 			sum, difference, negate, product, divide, sqrt, power, sqr, term, mod,
-			comp, rand, cos,
+			comp, rand, cos, sin,
 			// Data
 			make, list, thing, arg,
 			// Primitives
@@ -134,9 +134,10 @@ namespace logo
 
 			sqrt   = ("sqrt" >> expression)[&logo::action::sqrt];
 			cos    = ("cos" >> expression)[&logo::action::cos];
+			sin    = ("sin" >> expression)[&logo::action::sin];
 			rand   = ("rand" >> expression)[&random];
 
-			function = xcor | ycor | thing | rand | cos | 
+			function = xcor | ycor | thing | rand | cos | sin |
 			           repcount[&logo::action::repcount] |
 				   color[&setcolor] | 
 				   (lexeme_d[function_p[&logo::action::call]] >> *expression)[&do_call];

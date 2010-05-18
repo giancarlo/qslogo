@@ -82,21 +82,22 @@ namespace logo { namespace action {
 
 	void setx(IterT, IterT)
 	{
-		logo::win->turtle->reset();
-		logo::win->turtle->moveBy(stack.pop().toDouble(), 0);
+		logo::win->turtle->moveTo(stack.pop().toDouble(), 0);
 	}
 
 	void sety(IterT, IterT)
 	{
-		logo::win->turtle->reset();
-		logo::win->turtle->moveBy(0, stack.pop().toDouble());
+		logo::win->turtle->moveTo(0, stack.pop().toDouble());
 	}
 
+	/**
+	 * Moves the turtle to an absolute position in the graphics window. The two inputs are numbers
+	 * the X and Y coordinates
+	 */
 	void setxy(IterT, IterT)
 	{
-		logo::win->turtle->home();
 		double y = stack.pop().toDouble();
-		logo::win->turtle->moveBy(stack.pop().toDouble(), y);
+		logo::win->turtle->moveTo(stack.pop().toDouble(), y);
 	}
 
 	void penwidth(IterT, IterT)

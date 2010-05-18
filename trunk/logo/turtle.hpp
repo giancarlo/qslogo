@@ -49,6 +49,7 @@ namespace logo {
 			QPen& Pen();
 	
 			void moveBy(qreal, qreal);
+			void moveTo(qreal, qreal);
 			void forward(qreal count);
 			void backward(qreal count);
 			void rotate(qreal degree);
