@@ -80,6 +80,7 @@ namespace logo
 		void thing(IterT, IterT);
 
 		void repeat(IterT, IterT);
+		void repcount(IterT, IterT);
 		void sqrt(IterT, IterT);
 
 		/*

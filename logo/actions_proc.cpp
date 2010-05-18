@@ -24,12 +24,16 @@
 #include "window.hpp"
 #include "interpreter.hpp"
 
+#include <cstdio>
+
 namespace logo {
 
 	namespace action {
 
 		QString scope;
 		QStack<logo::action::call_struct> call_stack;
+
+		double _repcount=-1; // Stores repcount value
 
 		inline QVariant& getVariable(QString name)
 		{
@@ -101,10 +105,22 @@ namespace logo {
 		void repeat(IterT, IterT)
 		{
 			QString block = stack.pop().toString();
-			for (int i = stack.pop().toInt(); i > 0; --i)
+			int start = stack.pop().toInt();
+
+			for (int i = start; i > 0; --i)
 			{
+				_repcount = start - i + 1; // To implement repcount command. This is not thread safe.
 				win->interpreter->parse(block);
 			}
+			_repcount = -1;
+		}
+
+		/**
+		 * Outputs the repetition count of the innermost current REPEAT or FOREVER, starting from 1.
+		 */
+		void repcount(IterT, IterT)
+		{
+			stack.push(_repcount);
 		}
 
 		/** NOTE: Check if the function exists is done in the parser. No Need to do it here */
