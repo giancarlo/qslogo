@@ -82,12 +82,12 @@ namespace logo { namespace action {
 
 	void setx(IterT, IterT)
 	{
-		logo::win->turtle->moveTo(stack.pop().toDouble(), 0);
+		logo::win->turtle->moveTo(stack.pop().toDouble(), logo::win->turtle->y());
 	}
 
 	void sety(IterT, IterT)
 	{
-		logo::win->turtle->moveTo(0, stack.pop().toDouble());
+		logo::win->turtle->moveTo(logo::win->turtle->x(), stack.pop().toDouble());
 	}
 
 	/**

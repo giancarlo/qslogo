@@ -61,12 +61,12 @@ namespace logo
 
 		void cos(IterT, IterT)
 		{
-			stack.push(::cos(stack.pop().toDouble()) * PI / 180.0);			
+			stack.push(::cos(stack.pop().toDouble() * PI / 180.0));			
 		}
 
 		void sin(IterT, IterT)
 		{
-			stack.push(::sin(stack.pop().toDouble()) * PI / 180.0);
+			stack.push(::sin(stack.pop().toDouble() * PI / 180.0));
 		}
 
 		void mod(IterT, IterT)
