@@ -77,7 +77,7 @@ namespace logo
 			pen, color,
 			// Algebra!
 			sum, difference, negate, product, divide, sqrt, power, sqr, term, mod,
-			comp, rand, cos, sin,
+			comp, rand, cos, sin, factor, unit,
 			// Data
 			make, list, thing, arg,
 			// Primitives
@@ -123,7 +123,17 @@ namespace logo
 			negate = ("neg" >> expression >> eol)[&logo::action::negate];
 			sqr    = ("sqr" >> expression >> eol)[&logo::action::sqr];
 			
-			term = sum | difference | product | divide | negate | sqr | mod | number | var | function;
+			unit = ('(' >> term >> ')') | number | var | function;
+			factor = unit >> *(
+			                   ('*' >> unit)[&logo::action::product] |
+			                   ('/' >> unit)[&logo::action::divide] 
+			         ) 
+			;
+			term = factor >> *(
+				        ('+' >> factor)[&logo::action::sum] | 
+			                ('-' >> factor)[&logo::action::dif]
+			);
+			
 			comp = term >> *(
 			      ('>' >> expression)[&gt] |
 			      ('<' >> expression)[&lt] |
@@ -137,7 +147,8 @@ namespace logo
 			sin    = ("sin" >> expression)[&logo::action::sin];
 			rand   = ("rand" >> expression)[&random];
 
-			function = xcor | ycor | thing | rand | cos | sin |
+			function = sum | difference | product | divide | negate | sqr | mod | 
+			           xcor | ycor | thing | rand | cos | sin |
 			           repcount[&logo::action::repcount] |
 				   color[&setcolor] | 
 				   (lexeme_d[function_p[&logo::action::call]] >> *expression)[&do_call];
@@ -187,6 +198,8 @@ namespace logo
 						 str_p("down")[&pendown])
 					  ) |
 					  (str_p("pen width") >> expression)[&penwidth] |
+					  (str_p("penwidth")  >> expression)[&penwidth] |
+					  (str_p("setpensize")>> expression)[&penwidth] |
 					  str_p("pu")[&penup] | 
 					  str_p("pd")[&pendown]
 			;
