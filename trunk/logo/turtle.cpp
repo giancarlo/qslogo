@@ -5,6 +5,7 @@
  */
 
 #include "turtle.hpp"
+#include <cmath>
 
 // TODO setOffset code sets the turtle offset in its center. 
 // This code might be better at another place.
@@ -92,16 +93,19 @@ void logo::turtle::moveBy(qreal dx, qreal dy)
 	scene->addLine(QLineF(last, pixmap->scenePos()), pen);
 }
 
-/**
- * TODO Fix this up.
- */
 void logo::turtle::moveTo(qreal x, qreal y)
 {
-	QTransform tt = pixmap->transform();
-	pixmap->resetTransform();
-	scene->addLine(0.0, 0.0, x, y, pen);
-	tt.translate(x,y);
-	pixmap->setTransform(tt);
+	// TODO Assuming no scaling or shearing, this will work.
+	qreal ix = this->x();
+	qreal iy = this->y();
+	qreal r = ::acos(pixmap->transform().m11());
+
+	scene->addLine(ix, iy, x, y, pen);
+
+	QTransform t;
+	t.translate(x, y);
+	t.rotateRadians(r);
+	pixmap->setTransform(t);
 }
 
 QGraphicsEllipseItem* logo::turtle::circle(qreal radius)
