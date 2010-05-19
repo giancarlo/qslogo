@@ -91,6 +91,7 @@ void logo::turtle::moveBy(qreal dx, qreal dy)
 	QPointF last(pixmap->scenePos());
 	pixmap->translate(dx, dy);
 	scene->addLine(QLineF(last, pixmap->scenePos()), pen);
+	QApplication::processEvents();
 }
 
 void logo::turtle::moveTo(qreal x, qreal y)
@@ -106,6 +107,7 @@ void logo::turtle::moveTo(qreal x, qreal y)
 	t.translate(x, y);
 	t.rotateRadians(r);
 	pixmap->setTransform(t);
+	QApplication::processEvents();
 }
 
 QGraphicsEllipseItem* logo::turtle::circle(qreal radius)
