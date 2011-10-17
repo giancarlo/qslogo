@@ -12,9 +12,10 @@ HEADERS += logo/*.hpp
 SOURCES += logo/*.cpp
 RESOURCES += logo/resources.qrc
 RC_FILE = logo/Logo.rc
+BOOST = lib
 
 # Check for Boost Spirit Headers
-!exists( $$BOOST/boost/spirit/core.hpp ) {
+!exists( $$BOOST/spirit/core.hpp ) {
 	error ( "No Boost Spirit Headers found." )
 }
 
